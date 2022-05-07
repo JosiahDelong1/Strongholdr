@@ -67,16 +67,20 @@ typedef struct
 
 typedef struct
 {
+	short dummy;
 	//FILL OUT LATER
 }Militia;
 
 typedef struct
 {
+	short dummy;
 	//FILL OUT LATER
 }Workforce;
 
 
 /* FUNCTIONS */
+
+void initializeStronghold(Stronghold*);
 
 //Will scrape through all rooms and floors to grab 
 //the different totals needed for end calculation
