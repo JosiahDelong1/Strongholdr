@@ -142,6 +142,9 @@
     <ClInclude Include="fileio.h" />
     <ClInclude Include="stronghold.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="strongholds.c" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
