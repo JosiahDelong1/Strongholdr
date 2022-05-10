@@ -1,33 +1,44 @@
 #ifndef STRONGHOLD_H
 #include <stdio.h>
+#include <stdbool.h>
 
 #define MAX_SS_NAME 21
 #define MAX_SS_TYPE 7
 
 //These will be used to modify room prices on different floor
+#define STARTER_LAYER 0
 #define LAYER_4 400
 #define LAYER_5 1000
 #define LAYER_6 2000
 #define LAYER_7 3000
 
 //Layers beyond 7 will use following forumla,
-// as every layer beyond 7 gets progressively more expensive by 1500 
+// as every layer beyond 7 gets progressively more expensive by 1500 (Basements get a little weird, as a second basement is a cost of LAYER_4
 // With respect to n being current layer:
-// Room Cost = ((n - 7) * LAYER_BEYOND) + LAYER_7
+// Floor Room Cost = ((n - 7) * LAYER_BEYOND) + LAYER_7
+// Basement Room Cost = ((-n -5) * LAYER_BEYON) + LAYER_7   (Basements will have to be negative'd)
 
 #define LAYER_BEYOND 1500
+
+//Need a define for easier readability when initializing new floors
+#define NewFloor true
+#define NewBasement false
+
 
 //Struct used to keep track of everything within the stronghold
 typedef struct 
 {
 	unsigned int totalSSPrice;
 	unsigned short totalSize;
+	unsigned short numFloors;
 	unsigned int EndTotal;
 
 	unsigned short numBedsNeeded;
 	unsigned short totalBeds;
 	unsigned short workersNeeded;
 
+	unsigned short heighestHeight;
+	unsigned short lowestDepth;
 	//Each Stronghold has an array of floors, both above and below ground
 	Floor** fPtr; 
 
@@ -43,8 +54,11 @@ typedef struct
 	unsigned short numRooms;
 	unsigned short ssTotal;
 
-	//Shows level of this floor, floors can be above and below ground, 0 is ground floor
+	//Shows level of this floor, floors can be above and below ground, 
+	//0 is ground floor, above are floors, below are basements
 	short level; 
+
+	//Each floor above 2 and basement below -1 have additional room costs
 	unsigned short layerCost;
 
 	//Each floor will have an array of rooms that can vary
@@ -82,6 +96,10 @@ typedef struct
 
 void initializeStronghold(Stronghold*);
 
+void initializeFloorOne(Floor*);
+
+void addFloor(Floor* sPtr, bool floorType, int* heighesHeight, int* lowestDepth);
+
 //Will scrape through all rooms and floors to grab 
 //the different totals needed for end calculation
 void setTotals(Stronghold*);
@@ -93,9 +111,7 @@ short getFloorSize(Floor*);
 //Will calculate end totals with all modifiers
 void getStrongholdEndTotal(Stronghold*);
 
-void addFloor(Stronghold*);
-
-void addRoom(Floor*);
+void addRoom(Floor*, int layerCost );
 
 unsigned short getLayerCost(Floor*);
 
