@@ -61,6 +61,8 @@ void addFloor(Stronghold* sPtr, bool floorType, int* highestHeight, int* lowestD
 
 }
 
+
+
 unsigned short getLayerCost(Floor* fPtr)
 {
 	int level;
@@ -93,6 +95,9 @@ unsigned short getLayerCost(Floor* fPtr)
 			return ((layer - 7) * LAYER_BEYOND) + LAYER_7;
 	}
 }
+
+
+
 /*
 *	for malloc'ing rooms later
 	Room** rPtr = (Room*)malloc(sizeof(Room*));
