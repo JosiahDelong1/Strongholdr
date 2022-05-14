@@ -63,9 +63,12 @@ void addFloor(Stronghold* sPtr, bool floorType)
 	//First we need to set the number of floors to +1
 	sPtr->numFloors = sPtr->numFloors + 1;
 
+	Floor** temp = sPtr->fPtr;
 	//Then we need to reallocate the space we had previously set for all the floors
-	sPtr->fPtr = (Floor*)realloc(sPtr->fPtr, sizeof(Floor*) * sPtr->numFloors);
+	sPtr->fPtr = (Floor**)realloc(sPtr->fPtr, sizeof(Floor*) * sPtr->numFloors);
 	
+	
+
 	//Create a new Floor pointer for the sake of convenience
 	Floor* fPtr = sPtr->fPtr[sPtr->numFloors - 1];
 

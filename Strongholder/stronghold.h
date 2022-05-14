@@ -1,7 +1,5 @@
 #ifndef STRONGHOLD_H
 #define STRONGHOLD_H
-#include <stdio.h>
-#include<stdlib.h>
 #include <stdbool.h>
 
 
@@ -27,6 +25,34 @@
 #define NewFloor true
 #define NewBasement false
 
+typedef struct
+{
+	unsigned short price;
+	unsigned short ssSize;
+	unsigned char* sName;
+	unsigned char* sType;
+
+	//Will keep track of duplicate rooms on the floor, keeps from duplicate structs taking up space
+	unsigned short numRooms;
+
+}Room;
+
+typedef struct
+{
+	unsigned short numRooms;
+	unsigned short ssTotal;
+
+	//Shows level of this floor, floors can be above and below ground, 
+	//0 is ground floor, above are floors, below are basements
+	short level;
+
+	//Each floor above 2 and basement below -1 have additional room costs
+	unsigned short layerCost;
+
+	//Each floor will have an array of rooms that can vary
+	//Future implementation of hashmap rather than array for faster adding and removing of rooms would be cool
+	Room** rPtr;
+}Floor;
 
 //Struct used to keep track of everything within the stronghold
 typedef struct
@@ -57,36 +83,6 @@ typedef struct
 
 typedef struct
 {
-	unsigned short numRooms;
-	unsigned short ssTotal;
-
-	//Shows level of this floor, floors can be above and below ground, 
-	//0 is ground floor, above are floors, below are basements
-	short level; 
-
-	//Each floor above 2 and basement below -1 have additional room costs
-	unsigned short layerCost;
-
-	//Each floor will have an array of rooms that can vary
-	//Future implementation of hashmap rather than array for faster adding and removing of rooms would be cool
-	Room** rPtr;
-}Floor;
-
-
-typedef struct
-{
-	unsigned short price;
-	unsigned short ssSize;
-	unsigned char* sName;
-	unsigned char* sType;
-
-	//Will keep track of duplicate rooms on the floor, keeps from duplicate structs taking up space
-	unsigned short numRooms; 
-
-}Room;
-
-typedef struct
-{
 	short dummy;
 	//FILL OUT LATER
 }Militia;
@@ -108,7 +104,7 @@ void displayFloor(Floor*);
 
 void displayRoom(Room*);
 
-void initializeFloorOne(Floor*);
+void initializeFloorOne(Floor**);
 
 void addFloor(Floor* sPtr, bool floorType);
 

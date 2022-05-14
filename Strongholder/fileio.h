@@ -2,15 +2,13 @@
 #define FILEIO_H
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
-#include <malloc.h>
 #include "stronghold.h"
 
 
 typedef unsigned char BYTE;
 
 //Eventual FILEIO to implement
-FILE* openStronghold(const char* fileName, const char* fileMode);
+Stronghold* openStronghold(const char* fileName, const char* fileMode);
 
 //Specifically for reading and writinge stronghold files
 int readFile(FILE* filePtr, BYTE* data, int bytesTorRead);
