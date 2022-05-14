@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 #include <malloc.h>
@@ -18,6 +19,35 @@ void initializeStronghold(Stronghold* sPtr)
 	sPtr->numFloors = 1;
 }
 
+
+void displayStronghold(Stronghold* sPtr)
+{
+	for (int i = 0; i < sPtr->numFloors; i++)
+	{
+		displayFloor(sPtr->fPtr[i]);
+	}
+}
+
+void displayFloor(Floor* fPtr)
+{
+	if (fPtr->level < 0)
+		printf("Basement #%d\n", fPtr->level);
+	else
+		printf("Floor #%d\n", fPtr->level);
+
+	printf("\nNumber of Rooms: %d\nStronghold Space Total: %d\nExtra Floor Costs: %d\n\n", fPtr->numRooms, fPtr->ssTotal, fPtr->layerCost);
+	
+	//The room pointer array always initialiizes to NULL
+	if (fPtr->rPtr != NULL)
+	{
+		for (int i = 0; i < fPtr->numRooms; i++)
+		{
+			displayRoom(fPtr->rPtr[i]);
+		}
+	}
+}
+
+
 void initializeFloorOne(Floor* fPtr)
 {
 	fPtr->level = 0;
@@ -28,7 +58,7 @@ void initializeFloorOne(Floor* fPtr)
 
 //Will be useful for setting the extra layer cost needed for adding rooms
 //Will need height and depth in order to increment where needed
-void addFloor(Stronghold* sPtr, bool floorType, int* highestHeight, int* lowestDepth)
+void addFloor(Stronghold* sPtr, bool floorType)
 {
 	//First we need to set the number of floors to +1
 	sPtr->numFloors = sPtr->numFloors + 1;
@@ -42,17 +72,17 @@ void addFloor(Stronghold* sPtr, bool floorType, int* highestHeight, int* lowestD
 	fPtr->numRooms = 0;
 	fPtr->ssTotal = 0;
 	
-	//Here we are checking if we need to increment
-	//or decrement the height and depth, then we set the level
+	//Here we are checking if we need to increment/decrement height/depth
+	//using a typedef'd bool, then we set the level
 	if (floorType == NewFloor)
 	{
-		*highestHeight++;
-		fPtr->level = *highestHeight;
+		sPtr->heighestHeight++;
+		fPtr->level = sPtr->heighestHeight;
 	}
 	else
 	{
-		*lowestDepth++;
-		fPtr->level = *lowestDepth;
+		sPtr->lowestDepth--;
+		fPtr->level = sPtr->lowestDepth;
 	}
 
 	fPtr->layerCost = getLayerCost(fPtr);
@@ -73,7 +103,8 @@ unsigned short getLayerCost(Floor* fPtr)
 	{
 		level = abs(fPtr->level) + 1;
 	}
-	level = fPtr->level;
+	else
+		level = fPtr->level;
 	
 	//The layer will also always be 1 more than the level
 	int layer = level++;

@@ -1,5 +1,11 @@
 #ifndef FILEIO_H
+#define FILEIO_H
 #include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+#include <malloc.h>
+#include "stronghold.h"
+
 
 typedef unsigned char BYTE;
 

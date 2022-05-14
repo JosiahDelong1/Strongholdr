@@ -1,0 +1,32 @@
+Alchemical Labratory,Basic,700,1,Fancy,3000,1
+Armory,Basic,500,1,Fancy,2000,1
+Auditorium,Fancy,20000,1,Luxury,10000,1
+Barbican,1000,1
+Barracks,400,1
+Bath,Basic,400,0.5,Fancy,2000,1,Luxury,10000,2
+Bedrooms,Basic,700,1,Fancy,4000,1,Luxury,20000,2
+Bedroom Suite,Basic,800,1,Fancy,5000,1,Luxury,25000,2
+Chapel,Basic,1000,1,Fancy,6000,2,Luxury,25000,2
+Common Area,Basic,500,1,Fancy,3,000,1
+Courtyard,Basic,500,1,Fancy,3000,1,Luxury,15000,1
+Dining Hall,Basic,2000,2,Fancy,12000,2,Luxury,50000,2
+Dock,Basic,500,1,Extended,3000,2,Extended (Dry),15000,2
+Gatehouse,N/A,1000,0.5
+Guard Post,N/A,300,0.5
+Kitchen,Basic,2000,1,Fancy,12000,1,Luxury,50000,2
+Labyrinth,N/A,500,1
+Library,Basic,500,1,Fancy,3000,1,Luxury,15000,2
+Magic Laboratory,Basic,500,1,Fancy,3000,1
+Prison Cell,N/A,500,0.5
+Servant's Quarters,N/A,400,1
+Shop,Basic,400,1,Fancy,4000,1,Luxury,16000,1
+Smithy,Basic,500,1,Fancy,2000,1
+Stable,Basic,1000,1,Fancy,3000,1,Luxury,9000,1
+Storage,Basic,250,1,Fancy,1000,1,Luxury,3000,1
+Study/Office,Basic,200,0.5,Fancy,2,500,1,Luxury,15000,1.5
+Tavern,Basic,900,1,Fancy,4000,1,Luxury,20000,1
+Throne Room,Basic,2000,1,Fancy,12000,1,Luxury,80000,2
+Torture Chamber,N/A,3000,1
+Training Area,Combat,1000,1,Rogue,2000,1
+Trophy Hall,Basic,1000,1,Fancy (Museum),6000,1
+Workplace,Basic,500,1,Fancy,2000,1

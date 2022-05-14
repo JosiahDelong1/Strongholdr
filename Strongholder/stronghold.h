@@ -1,6 +1,9 @@
 #ifndef STRONGHOLD_H
+#define STRONGHOLD_H
 #include <stdio.h>
+#include<stdlib.h>
 #include <stdbool.h>
+
 
 #define MAX_SS_NAME 21
 #define MAX_SS_TYPE 7
@@ -16,7 +19,7 @@
 // as every layer beyond 7 gets progressively more expensive by 1500 (Basements get a little weird, as a second basement is a cost of LAYER_4
 // With respect to n being current layer:
 // Floor Room Cost = ((n - 7) * LAYER_BEYOND) + LAYER_7
-// Basement Room Cost = ((-n -5) * LAYER_BEYON) + LAYER_7   (Basements will have to be negative'd)
+// Basement Room Cost = ((-n - 5) * LAYER_BEYOND) + LAYER_7   (No longer have to use this, but I still like looking at it)
 
 #define LAYER_BEYOND 1500
 
@@ -26,7 +29,7 @@
 
 
 //Struct used to keep track of everything within the stronghold
-typedef struct 
+typedef struct
 {
 	unsigned int totalSSPrice;
 	unsigned short totalSize;
@@ -37,16 +40,19 @@ typedef struct
 	unsigned short totalBeds;
 	unsigned short workersNeeded;
 
+	//lowestDept needs to be signed so we can track
+	//depth properly, almost didn't do that :p
 	unsigned short heighestHeight;
-	unsigned short lowestDepth;
+	short lowestDepth;
+
 	//Each Stronghold has an array of floors, both above and below ground
 	Floor** fPtr; 
 
 	//Each Stronghold also needs a workforce to maintain it
-	Workforce wforce;
+	//Workforce wforce;
 
 	//Each Stronghold has options for outfiting a personal militia
-	Militia mSettings;
+	//Militia mSettings;
 }Stronghold;
 
 typedef struct
@@ -96,9 +102,15 @@ typedef struct
 
 void initializeStronghold(Stronghold*);
 
+void displayStronghold(Stronghold*);
+
+void displayFloor(Floor*);
+
+void displayRoom(Room*);
+
 void initializeFloorOne(Floor*);
 
-void addFloor(Floor* sPtr, bool floorType, int* heighesHeight, int* lowestDepth);
+void addFloor(Floor* sPtr, bool floorType);
 
 //Will scrape through all rooms and floors to grab 
 //the different totals needed for end calculation
