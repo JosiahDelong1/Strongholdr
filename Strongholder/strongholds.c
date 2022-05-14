@@ -11,7 +11,7 @@
 void initializeStronghold(Stronghold* sPtr)
 {
 	//Each stronghold only starts with 1 floor
-	sPtr->fPtr = (Floor*)malloc(sizeof(Floor*)); 
+	sPtr->fPtr = (Floor**)malloc(sizeof(Floor*)); 
 	initializeFloorOne(sPtr->fPtr[0]);
 
 	//Not sure if I need to keep track of number of floors,
@@ -67,8 +67,6 @@ void addFloor(Stronghold* sPtr, bool floorType)
 	//Then we need to reallocate the space we had previously set for all the floors
 	sPtr->fPtr = (Floor**)realloc(sPtr->fPtr, sizeof(Floor*) * sPtr->numFloors);
 	
-	
-
 	//Create a new Floor pointer for the sake of convenience
 	Floor* fPtr = sPtr->fPtr[sPtr->numFloors - 1];
 
