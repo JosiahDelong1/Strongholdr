@@ -17,15 +17,16 @@ void testStrongholdAddFloor()
 
 	// addFloor(&nStrong, NewBasement);
 	addFloor(&nStrong, NewBasement);
+	addFloor(&nStrong, NewFloor);
+	addFloor(&nStrong, NewFloor);
+	addFloor(&nStrong, NewBasement);
+	addFloor(&nStrong, NewFloor);
+	addFloor(&nStrong, NewBasement);
+	addFloor(&nStrong, NewFloor);
 	addFloor(&nStrong, NewBasement);
 	addFloor(&nStrong, NewFloor);
 	addFloor(&nStrong, NewFloor);
-	addFloor(&nStrong, NewFloor);
-	addFloor(&nStrong, NewFloor);
-	addFloor(&nStrong, NewFloor);
-	addFloor(&nStrong, NewFloor);
-	addFloor(&nStrong, NewFloor);
-	addFloor(&nStrong, NewFloor);
+	sortFloors(&nStrong);
 	displayStronghold(&nStrong);
 }
 

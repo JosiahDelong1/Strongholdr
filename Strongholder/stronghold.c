@@ -111,10 +111,23 @@ void addFloor(Stronghold* sPtr, bool floorType)
 
 }
 
-// void sortFloors(Stronghold* sPtr)
-// {
-
-// }
+void sortFloors(Stronghold* sPtr)
+{
+	Floor* tempPtr = sPtr->fPtr[0];
+	for(int i = 0; i < sPtr->numFloors - 1; i++)
+	{
+		tempPtr = sPtr->fPtr[0];
+		for(int j = 0; j < sPtr->numFloors -i -1; j++)
+		{
+			if(sPtr->fPtr[j]->level > sPtr->fPtr[j+1]->level)
+			{
+				tempPtr = sPtr->fPtr[j];
+				sPtr->fPtr[j] = sPtr->fPtr[j+1];
+				sPtr->fPtr[j+1] = tempPtr; 
+			}
+		}
+	}
+}
 
 unsigned short getLayerCost(Floor* fPtr)
 {
@@ -137,9 +150,7 @@ unsigned short getLayerCost(Floor* fPtr)
 	else
 		layer = fPtr->level + 2;
 
-
-
-
+	//Had an error, was checking for <= 4, rather than 3
 	if (layer <= 3)
 		return STARTER_LAYER;
 
