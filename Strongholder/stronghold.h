@@ -68,7 +68,7 @@ typedef struct
 
 	//lowestDept needs to be signed so we can track
 	//depth properly, almost didn't do that :p
-	unsigned short heighestHeight;
+	short heighestHeight;
 	short lowestDepth;
 
 	//Each Stronghold has an array of floors, both above and below ground
@@ -104,10 +104,11 @@ void displayFloor(Floor*);
 
 void displayRoom(Room*);
 
-void initializeFloorOne(Floor**);
+void initializeFloorOne(Floor*);
 
-void addFloor(Floor* sPtr, bool floorType);
+void addFloor(Stronghold* sPtr, bool floorType);
 
+void sortFloors(Stronghold*);
 //Will scrape through all rooms and floors to grab 
 //the different totals needed for end calculation
 void setTotals(Stronghold*);

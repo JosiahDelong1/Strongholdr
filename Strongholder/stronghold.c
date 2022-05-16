@@ -2,9 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include <malloc.h>
 #include "stronghold.h"
 #include "fileio.h"
+
+#if defined(_WIN64) || defined(_WIN32)
+#include <malloc.h>
+#endif
+
 
 
 //Initialized the new stronghold, mallocs appropriate size
@@ -12,16 +16,21 @@ void initializeStronghold(Stronghold* sPtr)
 {
 	//Each stronghold only starts with 1 floor
 	sPtr->fPtr = (Floor**)malloc(sizeof(Floor*)); 
+	sPtr->fPtr[0] = (Floor*)malloc(sizeof(Floor));
+	sPtr->heighestHeight = 0;
+	sPtr->lowestDepth = 0;
 	initializeFloorOne(sPtr->fPtr[0]);
 
 	//Not sure if I need to keep track of number of floors,
 	//but it may come in handy later
-	sPtr->numFloors = 1;
+	sPtr->numFloors++;
 }
 
 
 void displayStronghold(Stronghold* sPtr)
 {
+	printf("Number of Floors: %d\nHighest floor: %d\nLowest Depth: %d\n\n\n",sPtr->numFloors, sPtr->heighestHeight, sPtr->lowestDepth);
+
 	for (int i = 0; i < sPtr->numFloors; i++)
 	{
 		displayFloor(sPtr->fPtr[i]);
@@ -31,11 +40,15 @@ void displayStronghold(Stronghold* sPtr)
 void displayFloor(Floor* fPtr)
 {
 	if (fPtr->level < 0)
-		printf("Basement #%d\n", fPtr->level);
+		printf("Basement #%d\n", abs(fPtr->level));
 	else
 		printf("Floor #%d\n", fPtr->level);
 
-	printf("\nNumber of Rooms: %d\nStronghold Space Total: %d\nExtra Floor Costs: %d\n\n", fPtr->numRooms, fPtr->ssTotal, fPtr->layerCost);
+	printf("\nNumber of Rooms: %d\nStronghold Space Total: %d", fPtr->numRooms, fPtr->ssTotal);
+	if(fPtr->level < 0)
+		printf("\nLevel: %d\nLayer: %d\nExtra Floor Costs: %d\n\n", fPtr->level - 1, abs(fPtr->level) + 3,fPtr->layerCost);
+	else
+		printf("\nLevel: %d\nLayer: %d\nExtra Floor Costs: %d\n\n", fPtr->level + 1, fPtr->level +2, fPtr->layerCost);
 	
 	//The room pointer array always initialiizes to NULL
 	if (fPtr->rPtr != NULL)
@@ -45,6 +58,11 @@ void displayFloor(Floor* fPtr)
 			displayRoom(fPtr->rPtr[i]);
 		}
 	}
+}
+
+void displayRoom(Room* rPtr)
+{
+	printf("No rooms");
 }
 
 
@@ -61,14 +79,15 @@ void initializeFloorOne(Floor* fPtr)
 void addFloor(Stronghold* sPtr, bool floorType)
 {
 	//First we need to set the number of floors to +1
-	sPtr->numFloors = sPtr->numFloors + 1;
+	sPtr->numFloors++;
 
-	Floor** temp = sPtr->fPtr;
+
 	//Then we need to reallocate the space we had previously set for all the floors
 	sPtr->fPtr = (Floor**)realloc(sPtr->fPtr, sizeof(Floor*) * sPtr->numFloors);
-	
+	//Make freeing function
+
 	//Create a new Floor pointer for the sake of convenience
-	Floor* fPtr = sPtr->fPtr[sPtr->numFloors - 1];
+	Floor* fPtr = sPtr->fPtr[sPtr->numFloors - 1] = (Floor*)malloc(sizeof(Floor));
 
 	fPtr->numRooms = 0;
 	fPtr->ssTotal = 0;
@@ -92,25 +111,36 @@ void addFloor(Stronghold* sPtr, bool floorType)
 
 }
 
+// void sortFloors(Stronghold* sPtr)
+// {
 
+// }
 
 unsigned short getLayerCost(Floor* fPtr)
 {
-	int level;
+	int layer;
 
 	//I can check the layer cost by getting the absolute
-	//of the layer cost and adding 1 if it was negative initially
+	//of the layer cost and adding 2 if it was negative initially
 	if (fPtr->level < 0)
 	{
-		level = abs(fPtr->level) + 1;
+		layer = abs(fPtr->level) + 3;
 	}
-	else
-		level = fPtr->level;
-	
-	//The layer will also always be 1 more than the level
-	int layer = level++;
 
-	if (level < 4)
+	/*Layer is different from level, so this may be a tad confusing :(
+	Basement 1 through Floor 2 are first 3 Layers, not really gone into more depth in the book
+	Basement 2 and Floor 3 is Layer 4
+	Basement 3 and Floor 4 is Layer 5
+	 etc...
+	The way layers are set up in the book, I need to add 2 to floors, 3 to basements
+	*/
+	else
+		layer = fPtr->level + 2;
+
+
+
+
+	if (layer <= 3)
 		return STARTER_LAYER;
 
 	switch (layer)
