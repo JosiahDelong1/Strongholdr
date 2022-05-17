@@ -9,8 +9,6 @@
 #include <malloc.h>
 #endif
 
-
-
 //Initialized the new stronghold, mallocs appropriate size
 void initializeStronghold(Stronghold* sPtr)
 {
@@ -25,7 +23,6 @@ void initializeStronghold(Stronghold* sPtr)
 	//but it may come in handy later
 	sPtr->numFloors++;
 }
-
 
 void displayStronghold(Stronghold* sPtr)
 {
@@ -46,7 +43,7 @@ void displayFloor(Floor* fPtr)
 
 	printf("\nNumber of Rooms: %d\nStronghold Space Total: %d", fPtr->numRooms, fPtr->ssTotal);
 	if(fPtr->level < 0)
-		printf("\nLevel: %d\nLayer: %d\nExtra Floor Costs: %d\n\n", fPtr->level - 1, abs(fPtr->level) + 3,fPtr->layerCost);
+		printf("\nLevel: %d\nLayer: %d\nExtra Floor Costs: %d\n\n", fPtr->level, abs(fPtr->level) + 2,fPtr->layerCost);
 	else
 		printf("\nLevel: %d\nLayer: %d\nExtra Floor Costs: %d\n\n", fPtr->level + 1, fPtr->level +2, fPtr->layerCost);
 	
@@ -65,7 +62,6 @@ void displayRoom(Room* rPtr)
 	printf("No rooms");
 }
 
-
 void initializeFloorOne(Floor* fPtr)
 {
 	fPtr->level = 0;
@@ -73,14 +69,12 @@ void initializeFloorOne(Floor* fPtr)
 	fPtr->rPtr = NULL;
 }
 
-
 //Will be useful for setting the extra layer cost needed for adding rooms
 //Will need height and depth in order to increment where needed
 void addFloor(Stronghold* sPtr, bool floorType)
 {
 	//First we need to set the number of floors to +1
 	sPtr->numFloors++;
-
 
 	//Then we need to reallocate the space we had previously set for all the floors
 	sPtr->fPtr = (Floor**)realloc(sPtr->fPtr, sizeof(Floor*) * sPtr->numFloors);
@@ -108,7 +102,6 @@ void addFloor(Stronghold* sPtr, bool floorType)
 	fPtr->layerCost = getLayerCost(fPtr);
 
 	fPtr->rPtr = NULL;
-
 }
 
 void sortFloors(Stronghold* sPtr)
@@ -131,15 +124,10 @@ void sortFloors(Stronghold* sPtr)
 
 unsigned short getLayerCost(Floor* fPtr)
 {
-	int layer;
-
 	//I can check the layer cost by getting the absolute
 	//of the layer cost and adding 2 if it was negative initially
-	if (fPtr->level < 0)
-	{
-		layer = abs(fPtr->level) + 3;
-	}
-
+	int layer = abs(fPtr->level) + 2;
+	
 	/*Layer is different from level, so this may be a tad confusing :(
 	Basement 1 through Floor 2 are first 3 Layers, not really gone into more depth in the book
 	Basement 2 and Floor 3 is Layer 4
@@ -147,8 +135,6 @@ unsigned short getLayerCost(Floor* fPtr)
 	 etc...
 	The way layers are set up in the book, I need to add 2 to floors, 3 to basements
 	*/
-	else
-		layer = fPtr->level + 2;
 
 	//Had an error, was checking for <= 4, rather than 3
 	if (layer <= 3)
@@ -173,5 +159,5 @@ unsigned short getLayerCost(Floor* fPtr)
 
 /*
 *	for malloc'ing rooms later
-	Room** rPtr = (Room*)malloc(sizeof(Room*));
+	Room** rPtr = (Room**)malloc(sizeof(Room*));
 */

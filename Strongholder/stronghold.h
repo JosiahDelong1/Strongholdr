@@ -29,7 +29,12 @@ typedef struct
 {
 	unsigned short price;
 	unsigned short ssSize;
+
+	//need to keep track of the char sizes for serialization
+	unsigned short nameSize;
 	unsigned char* sName;
+
+	unsigned short typeSize;
 	unsigned char* sType;
 
 	//Will keep track of duplicate rooms on the floor, keeps from duplicate structs taking up space
@@ -134,4 +139,3 @@ void setMilitary(Stronghold*);
 void setWorkforce(Stronghold*);
 
 #endif // !STRONGHOLD_H
-
