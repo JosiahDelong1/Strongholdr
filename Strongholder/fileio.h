@@ -8,11 +8,14 @@
 typedef unsigned char BYTE;
 
 //Eventual FILEIO to implement
-Stronghold* openStronghold(const char* fileName, const char* fileMode);
+
+//Will open and return a Stronghold struct
+Stronghold* loadStronghold(FILE*);
+
+int writeStronghold(FILE* filePtr, Stronghold* sPtr);
 
 //Specifically for reading and writinge stronghold files
-int readFile(FILE* filePtr, BYTE* data, int bytesTorRead);
-int writeFile(FILE* filePtr, BYTE* data, int bytesToWrite);
+FILE* openFile(const char* fileName, const char* fileMode);
 
 //Will read from provided file to give a list of rooms available
 int getRoomInfo(FILE*);

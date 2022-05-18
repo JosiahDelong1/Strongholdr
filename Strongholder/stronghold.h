@@ -109,7 +109,7 @@ void displayStronghold(Stronghold*);
 
 void displayFloor(Floor*);
 
-void displayRoom(Room*)
+void displayRoom(Room*);
 
 void addFloor(Stronghold* sPtr, bool floorType);
 
