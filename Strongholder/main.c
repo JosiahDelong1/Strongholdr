@@ -12,7 +12,7 @@
 void testStrongholdAddFloor(Stronghold* nStrong)
 {
 	initializeStronghold(nStrong);
-	printf("Highest height: %d\nHighest height + 1: %d\n", nStrong->heighestHeight, nStrong->heighestHeight + 1);
+	
 	addFloor(nStrong, NewFloor);
 	addFloor(nStrong, NewBasement);
 	addFloor(nStrong, NewBasement);

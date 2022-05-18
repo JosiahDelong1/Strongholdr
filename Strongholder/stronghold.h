@@ -103,13 +103,13 @@ typedef struct
 
 void initializeStronghold(Stronghold*);
 
+void initializeFloorOne(Floor*);
+
 void displayStronghold(Stronghold*);
 
 void displayFloor(Floor*);
 
-void displayRoom(Room*);
-
-void initializeFloorOne(Floor*);
+void displayRoom(Room*)
 
 void addFloor(Stronghold* sPtr, bool floorType);
 
