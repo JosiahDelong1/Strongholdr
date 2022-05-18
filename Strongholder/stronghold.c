@@ -15,13 +15,32 @@ void initializeStronghold(Stronghold* sPtr)
 	//Each stronghold only starts with 1 floor
 	sPtr->fPtr = (Floor**)malloc(sizeof(Floor*)); 
 	sPtr->fPtr[0] = (Floor*)malloc(sizeof(Floor));
+
+	sPtr->totalSSPrice = 0;
+	sPtr->totalSize = 0;
+	sPtr->EndTotal = 0;
+
+	sPtr->workersNeeded = 0;
+	sPtr->numBedsNeeded = 0;
+	sPtr->totalBeds = 0;
+
 	sPtr->heighestHeight = 0;
 	sPtr->lowestDepth = 0;
+
 	initializeFloorOne(sPtr->fPtr[0]);
 
 	//Not sure if I need to keep track of number of floors,
 	//but it may come in handy later
-	sPtr->numFloors++;
+	sPtr->numFloors = 1;
+}
+
+void initializeFloorOne(Floor* fPtr)
+{
+	fPtr->numRooms = 0;
+	fPtr->ssTotal = 0;
+	fPtr->level = 0;
+	fPtr->layerCost = STARTER_LAYER;
+	fPtr->rPtr = NULL;
 }
 
 void displayStronghold(Stronghold* sPtr)
@@ -62,12 +81,6 @@ void displayRoom(Room* rPtr)
 	printf("No rooms");
 }
 
-void initializeFloorOne(Floor* fPtr)
-{
-	fPtr->level = 0;
-	fPtr->layerCost = STARTER_LAYER;
-	fPtr->rPtr = NULL;
-}
 
 //Will be useful for setting the extra layer cost needed for adding rooms
 //Will need height and depth in order to increment where needed
