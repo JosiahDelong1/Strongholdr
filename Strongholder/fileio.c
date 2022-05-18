@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
-#include <unistd.h>
+
 #include "stronghold.h"
 #include "fileio.h"
 
 #if defined(_WIN64) || defined(_WIN32)
 #include <malloc.h>
-#endif
 
+#elif(__unix__)
+#include <unistd.h>
+#endif
 
 FILE* openFile(const char* fileName, const char* fileMode)
 {
@@ -31,7 +32,7 @@ FILE* openFile(const char* fileName, const char* fileMode)
 //getRoomInfo will display all rooms in file
 Room* getRoom(FILE* fPtr)
 {
-    Room* nRoom;
+    Room* nRoom = NULL;
     getRoomInfo(fPtr);
 
 
@@ -52,7 +53,6 @@ Room* getRoomInfo(FILE* fPtr)
     const char sep[2] = ",";
 
     size_t bSize = MAX_CHAR_LENGTH;
-    size_t strLen;
     unsigned long* stringSize;
     
     rString = (char*)malloc(sizeof(char) * MAX_CHAR_LENGTH);
@@ -65,7 +65,8 @@ Room* getRoomInfo(FILE* fPtr)
 
     int i = 1;
     printf("\n");
-    while((strLen = getline(&rString, &bSize, fPtr)) != -1)
+    //while((strLen = getline(&rString, &bSize, fPtr)) != -1)
+    while(fgets(rString, MAX_CHAR_LENGTH, fPtr))
     {
         char* token = strtok(rString, sep);
         printf("%d. %s\n", i, token);
