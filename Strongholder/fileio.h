@@ -4,7 +4,7 @@
 #include <string.h>
 #include "stronghold.h"
 
-#define MAX_CHAR_LENGTH 60
+#define MAX_CHAR_LENGTH 65
 
 typedef unsigned char BYTE;
 

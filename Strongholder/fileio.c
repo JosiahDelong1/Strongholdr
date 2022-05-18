@@ -11,8 +11,6 @@
 #endif
 
 
-
-
 FILE* openFile(const char* fileName, const char* fileMode)
 {
     FILE* fPtr;
@@ -51,8 +49,7 @@ Room* getRoom(FILE* fPtr)
 Room* getRoomInfo(FILE* fPtr)
 {
     char* rString;
-    char* sep;
-    *sep = ',';
+    const char sep[2] = ",";
 
     size_t bSize = MAX_CHAR_LENGTH;
     size_t strLen;
@@ -74,7 +71,7 @@ Room* getRoomInfo(FILE* fPtr)
         printf("%d. %s\n", i, token);
         i++;
     }
-    sleep(1);
+    
     free(rString);
     return NULL;
 }
