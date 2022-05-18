@@ -46,6 +46,10 @@ void showStrongholdData(Stronghold* nStrong)
 	Stronghold nStrong;
 	testStrongholdAddFloor(&nStrong);
 	showStrongholdData(&nStrong);
-
+	
+	FILE* fPtr = openFile("spaces.csv", "r");
+	printf("\nGetting room info...\n");
+	Room* r = getRoomInfo(fPtr);
+	
 	return 0;
 }
