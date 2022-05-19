@@ -53,7 +53,7 @@ Room* getRoomInfo(FILE* fPtr)
     const char sep[2] = ",";
 
     size_t bSize = MAX_CHAR_LENGTH;
-    unsigned long* stringSize;
+    //unsigned long* stringSize;
     
     rString = (char*)malloc(sizeof(char) * MAX_CHAR_LENGTH);
 

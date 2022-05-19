@@ -41,13 +41,32 @@ void showStrongholdData(Stronghold* nStrong)
 	printf("size of Int: %ld\n", sizeof(int));
 }
 
+void testStrTok(FILE* fPtr)
+{
+	char* rString = (char*)malloc(sizeof(char) * MAX_CHAR_LENGTH);
+	const char sep[2] = ",";
+	int i = 1;
+	printf("Counting splits in string...\n\n");
+	fgets(rString, MAX_CHAR_LENGTH, fPtr);
+	char* token = strtok(rString, sep);
+	while (token != NULL)
+	{
+		printf("%d: %s", i, token);
+		i++;
+		token = strtok(NULL, sep);
+		printf("\nPress Enter to Continue");
+		while (getchar() != '\n');
+	}
+}
+
  int main()
 {
-	// Stronghold nStrong;
-	// testStrongholdAddFloor(&nStrong);
-	// showStrongholdData(&nStrong);
-	
-	FILE* fPtr = openFile("spaces.csv", "r");
+	 
+	 /*testStrTok(fPtr);*/
+	Stronghold nStrong;
+	 testStrongholdAddFloor(&nStrong);
+	 showStrongholdData(&nStrong);
+	 FILE* fPtr = openFile("spaces.csv", "r");
 	printf("\nGetting room info...\n");
 	Room* r = getRoomInfo(fPtr);
 	
