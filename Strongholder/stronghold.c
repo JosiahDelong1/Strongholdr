@@ -169,7 +169,10 @@ unsigned short getLayerCost(Floor* fPtr)
 	}
 }
 
-
+void addRoom(Floor* fPtr)
+{
+	getRoomInfo(fPtr);
+}
 
 /*
 *	for malloc'ing rooms later

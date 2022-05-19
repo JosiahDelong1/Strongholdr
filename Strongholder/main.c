@@ -66,7 +66,7 @@ void testStrTok(FILE* fPtr)
 	}
 	
 	//C has problems, Need to set the rest of the strings to NULL,
-	// :| or just use k in the next for loop idiot
+	// :| or just use k in the next for-loop idiot
 	for (int i = 1; i < k; i++)
 	{
 		if (splits[i] == NULL)
