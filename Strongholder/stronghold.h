@@ -3,8 +3,8 @@
 #include <stdbool.h>
 
 
-#define MAX_SS_NAME 21
-#define MAX_SS_TYPE 7
+#define MAX_SS_LENGTH 21
+
 
 //These will be used to modify room prices on different floor
 #define STARTER_LAYER 0

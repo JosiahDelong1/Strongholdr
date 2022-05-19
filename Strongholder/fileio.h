@@ -5,7 +5,7 @@
 #include "stronghold.h"
 
 #define MAX_CHAR_LENGTH 65
-
+#define MAX_ARRAY_LENGTH 10
 typedef unsigned char BYTE;
 
 //Eventual FILEIO to implement
