@@ -84,6 +84,7 @@ void displayRoom(Room* rPtr)
 
 //Will be useful for setting the extra layer cost needed for adding rooms
 //Will need height and depth in order to increment where needed
+//REMEMBER: To add freeing function when removing Rooms and Floors
 void addFloor(Stronghold* sPtr, bool floorType)
 {
 	//First we need to set the number of floors to +1

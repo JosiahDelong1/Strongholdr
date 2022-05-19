@@ -134,6 +134,10 @@ void removeRoom(Floor*);
 //Will remove an entire floor, including all rooms, will have to put extreme warning
 void removeFloor(Stronghold*);
 
+void freeFloors(Stronghold*);
+
+void freeRooms(Floor*);
+
 void setMilitary(Stronghold*);
 
 void setWorkforce(Stronghold*);
