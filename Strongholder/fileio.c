@@ -28,16 +28,6 @@ FILE* openFile(const char* fileName, const char* fileMode)
     }
 }
 
-//getRoom will call getRoomInfo
-//getRoomInfo will display all rooms in file
-Room* getRoom(FILE* fPtr)
-{
-    Room* nRoom = NULL;
-    getRoomInfo(fPtr);
-
-
-    return nRoom;
-}
 
 /*
     read line from file
@@ -47,7 +37,7 @@ Room* getRoom(FILE* fPtr)
     split that line to prompt for space type and size
     add room using that selection
 */
-Room* getRoomInfo(FILE* fPtr)
+void getRoomInfo(FILE* fPtr)
 {
     char* rString;
     const char sep[2] = ",";
@@ -74,5 +64,39 @@ Room* getRoomInfo(FILE* fPtr)
     }
     
     free(rString);
-    return NULL;
+}
+
+Room* selectRoomAndType(FILE* fPtr)
+{
+    fseek(fPtr, 0, SEEK_SET);
+    char* rString = (char*)malloc(sizeof(char) * MAX_CHAR_LENGTH);
+    char** splits = (char**)malloc(sizeof(char*) * MAX_ARRAY_LENGTH);
+	const char sep[2] = ",";
+	
+	int* count;
+	int k = 0;
+
+    printf("Please Select a Room:\n");
+    scanf("%d", count);
+    while(*count < 0 || *count > 33)
+    {
+        printf("Please enter a valid room number (1 - 32)\n");
+        scanf("%d", count);
+    }
+
+	while (fgets(rString, MAX_CHAR_LENGTH, fPtr) && k < count)
+	{
+		k++;
+	}
+
+	char* token = strtok(rString, sep);
+	k = 0;
+	while(token != NULL)
+	{
+		printf("%d: %s\n", k, token);
+		splits[k] = (char*)malloc(sizeof(char) * strlen(token));
+		strcpy(splits[k], token);
+		k++;
+		token = strtok(NULL, sep);
+	}
 }

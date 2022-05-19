@@ -125,7 +125,7 @@ short getFloorSize(Floor*);
 //Will calculate end totals with all modifiers
 void getStrongholdEndTotal(Stronghold*);
 
-void addRoom(Floor*);
+void addRoom(Floor*, FILE*);
 
 unsigned short getLayerCost(Floor*);
 

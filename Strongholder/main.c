@@ -80,6 +80,7 @@ void testStrTok(FILE* fPtr)
 	
 	}
 
+	
 	//Use atoi(char*) to convert string to int
 	//use while(fgets(rString, MAX_CHAR_LENGTH, fPtr && count < RoomSelected - 1)) to get ID to wanted room
 	//Then use above to get split data, then create room with above data
@@ -111,6 +112,14 @@ void testStrTok(FILE* fPtr)
 	*/
 }
 
+void testAddRoom(FILE* fPtr)
+{
+	Floor floor;
+	getRoomInfo(fPtr);
+	selectRoomAndType(fPtr);
+}
+
+
  int main()
 {
 	 
@@ -126,12 +135,9 @@ void testStrTok(FILE* fPtr)
 	//Room* r = getRoomInfo(fPtr);
 
 	//fseek(fPtr, 0, SEEK_SET);
-	/*int i = atoi("Hello");
-	if (i != NULL)
-		printf(i);
-	else
-	printf("i = NULL");*/
-	testStrTok(fPtr);
+
+	// testStrTok(fPtr);
+	testAddRoom(fPtr);
 
 	return 0;
 }

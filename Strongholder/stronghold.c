@@ -169,9 +169,10 @@ unsigned short getLayerCost(Floor* fPtr)
 	}
 }
 
-void addRoom(Floor* fPtr)
+void addRoom(Floor* floor, FILE* fPtr)
 {
 	getRoomInfo(fPtr);
+	selectRoomAndType(fPtr);
 }
 
 /*

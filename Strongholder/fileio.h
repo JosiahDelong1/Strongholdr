@@ -28,9 +28,9 @@ FILE* openFile(const char* fileName, const char* fileMode);
 //from there, we get their inputs and return the room
 //We will need to get 2 inputs from user, which room, and the style
 //of the room (Basic, Fancy, Luxury, etc)
-Room* getRoom(FILE*);
-
 //Will read from provided file to give a list of rooms available
-Room* getRoomInfo(FILE*);
+void getRoomInfo(FILE*);
+
+Room* selectRoomAndType(FILE*);
 
 #endif // !FILEIO_H
