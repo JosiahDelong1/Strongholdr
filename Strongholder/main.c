@@ -46,49 +46,47 @@ void testStrTok(FILE* fPtr)
 	char* rString = (char*)malloc(sizeof(char) * MAX_CHAR_LENGTH);
 	const char sep[2] = ",";
 
-	int i = 0;
-	int j = 0;
-
-
+	int k = 0;
 	char** splits = (char**)malloc(sizeof(char*) * 10);
 
 	printf("Counting splits in string...\n\n");
 	fgets(rString, MAX_CHAR_LENGTH, fPtr);
 
 	char* token = strtok(rString, sep);
+	int count = 4;
 	while(token != NULL)
 	{
-		printf("%d: %s\n", i, token);
-		splits[i] = (char*)malloc(sizeof(char) * strlen(token) + 1);
-		strcpy(splits[i], token);
-		i++;
+		printf("%d: %s\n", k, token);
+		splits[k] = (char*)malloc(sizeof(char) * strlen(token));
+		strcpy(splits[k], token);
+		k++;
 		token = strtok(NULL, sep);
 	}
 
-	for (int i = 1; i < 10; i++)
+	for (int i = 1; i < k; i++)
 	{
 		if (splits[i] == NULL)
 		{
 			break;
 		}
-		else if (i==1 || i == 4 || i ==7 && splits[i] != NULL)
+		else if (i == 1 || i == 4 || i == 7)
 		{
-			printf("%s:\n\t--%s GP, Stronghold Spaces: %s\n", splits[i], splits[i + 1], splits[i + 2]);
+			printf("%s:\n\t--%s GP, Stronghold Spaces: %s\n\n", splits[i], splits[i + 1], splits[i + 2]);
 		}
-	}
-	printf("NO ATOI: %s GP, Stronghold Space: %s", splits[5], splits[6]);
-
-	printf("%d GP, Stronghold Space: %d", atoi(splits[5]), atoi(splits[6]));
 	
-
-
+	}
+	//Use atoi(char*) to convert string to int
+	//use while(fgets(rString, MAX_CHAR_LENGTH, fPtr && count < RoomSelected - 1)) to get ID to wanted room
+	//Then use above to get split data, then create room with above data
+	//If adding duplicate rooms, use binary search to see if room with same name and type exists, 
+	//If it does, increment the counter for that room
 }
 
  int main()
 {
 	 
 	 
-	//Stronghold nStrong;
+	Stronghold nStrong;
 
 	//testStrongholdAddFloor(&nStrong);
 	//showStrongholdData(&nStrong);
@@ -99,11 +97,11 @@ void testStrTok(FILE* fPtr)
 	//Room* r = getRoomInfo(fPtr);
 
 	//fseek(fPtr, 0, SEEK_SET);
-	//int i = atoi("Hello");
-	//if (i != NULL)
-	//	printf(i);
-	//else
-	//printf("i = NULL");
+	/*int i = atoi("Hello");
+	if (i != NULL)
+		printf(i);
+	else
+	printf("i = NULL");*/
 	testStrTok(fPtr);
 
 	return 0;

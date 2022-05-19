@@ -6,6 +6,11 @@
 
 #define MAX_CHAR_LENGTH 65
 #define MAX_ARRAY_LENGTH 10
+
+//Numbers needed for positions of Stronghold Types in split string
+#define BASIC 1
+#define FANCY 4
+#define LUXURY 7
 typedef unsigned char BYTE;
 
 //Eventual FILEIO to implement

@@ -53,8 +53,7 @@ Room* getRoomInfo(FILE* fPtr)
     const char sep[2] = ",";
 
     size_t bSize = MAX_CHAR_LENGTH;
-    //unsigned long* stringSize;
-    
+
     rString = (char*)malloc(sizeof(char) * MAX_CHAR_LENGTH);
 
     if(rString == NULL)
@@ -65,6 +64,7 @@ Room* getRoomInfo(FILE* fPtr)
 
     int i = 1;
     printf("\n");
+
     //while((strLen = getline(&rString, &bSize, fPtr)) != -1)
     while(fgets(rString, MAX_CHAR_LENGTH, fPtr))
     {
