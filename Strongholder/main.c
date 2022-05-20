@@ -116,7 +116,7 @@ void testAddRoom(FILE* fPtr)
 {
 	Floor floor;
 	getRoomInfo(fPtr);
-	selectRoomAndType(fPtr);
+	selectRoomAndType(&floor, fPtr);
 }
 
 
