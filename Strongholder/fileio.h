@@ -23,14 +23,6 @@ int writeStronghold(FILE* filePtr, Stronghold* sPtr);
 //Specifically for reading and writinge stronghold files
 FILE* openFile(const char* fileName, const char* fileMode);
 
-//Will return the chosen room information for adding to floor
-//getRoom will call getRoomInfo, which will query the user
-//from there, we get their inputs and return the room
-//We will need to get 2 inputs from user, which room, and the style
-//of the room (Basic, Fancy, Luxury, etc)
-//Will read from provided file to give a list of rooms available
-void getRoomInfo(FILE*);
 
-Room* selectRoomAndType(FILE*);
 
 #endif // !FILEIO_H

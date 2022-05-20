@@ -77,8 +77,8 @@ void displayFloor(Floor* fPtr)
 }
 
 void displayRoom(Room* rPtr)
-{
-	printf("No rooms");
+{	//Name: Type: Cost: Stronghold Spaces: Copies:
+	printf("\t\t%s\n\t\t%s\n\t\t%d\n\t\t%d\n\t\t%d\n", rPtr->sName, rPtr->sType, rPtr->price, rPtr->ssSize, rPtr->numRooms);
 }
 
 
@@ -169,10 +169,27 @@ unsigned short getLayerCost(Floor* fPtr)
 	}
 }
 
-void addRoom(Floor* floor, FILE* fPtr)
+void addRoom(Floor* fPtr, char** splits, int rSelection)
 {
-	getRoomInfo(fPtr);
-	selectRoomAndType(fPtr);
+	fPtr->numRooms = 1;
+
+	//Then we need to reallocate the space we had previously set for all the floors
+	if(fPtr->rPtr == NULL)
+		fPtr->rPtr = (Floor**)malloc(sizeof(Floor*) * fPtr->numRooms);
+	else
+		fPtr->rPtr = (Floor**)realloc(fPtr->rPtr,sizeof(Floor*) * fPtr->numRooms);
+	//Make freeing function
+
+	//Create a new Floor pointer for the sake of convenience
+	Room* r = fPtr->rPtr[fPtr->numRooms - 1] = (Floor*)malloc(sizeof(Floor));
+
+	r->nameSize = atoi(strlen(splits[0]));
+	strcpy(r->sName, splits[0]);
+	r->typeSize = atoi(strlen(splits[rSelection]));
+	strcpy(r->sType,splits[rSelection]);
+	r->price = atoi(splits[rSelection + 1]);
+	r->ssSize = atoi(splits[rSelection + 2]);
+	r->numRooms = 1;
 }
 
 /*

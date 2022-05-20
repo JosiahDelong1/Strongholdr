@@ -66,24 +66,32 @@ void getRoomInfo(FILE* fPtr)
     free(rString);
 }
 
-Room* selectRoomAndType(FILE* fPtr)
+void selectRoomAndType(Floor* floor, FILE* fPtr)
 {
     fseek(fPtr, 0, SEEK_SET);
     char* rString = (char*)malloc(sizeof(char) * MAX_CHAR_LENGTH);
     char** splits = (char**)malloc(sizeof(char*) * MAX_ARRAY_LENGTH);
 	const char sep[2] = ",";
 	
-	int* count;
+    int count;
 	int k = 0;
 
+    //Some minor input validation, don't want the user inputing 
     printf("Please Select a Room:\n");
-    scanf("%d", count);
-    while(*count < 0 || *count > 33)
+    int iErr = scanf("%d", &count);
+    count--;
+    while(count < 0 || count > 33)
     {
         printf("Please enter a valid room number (1 - 32)\n");
-        scanf("%d", count);
+        iErr = scanf("%d", &count);
+        count--;
     }
 
+    if (count == -1)
+    {
+        printf("okay\n");
+        return;
+    }
 	while (fgets(rString, MAX_CHAR_LENGTH, fPtr) && k < count)
 	{
 		k++;
@@ -93,10 +101,76 @@ Room* selectRoomAndType(FILE* fPtr)
 	k = 0;
 	while(token != NULL)
 	{
-		printf("%d: %s\n", k, token);
 		splits[k] = (char*)malloc(sizeof(char) * strlen(token));
 		strcpy(splits[k], token);
 		k++;
 		token = strtok(NULL, sep);
 	}
+
+    k = 0;
+    //If an entry in the .csv has "N/A" and only 1 type, just skip the for loop
+    printf("\n\n%s:\n", splits[0]);
+    if (strcmp(splits[1], "N/A") == 0)
+    {
+        printf("\n\t--%s GP\n\t--Stronghold Spaces: %s\n\n", splits[2], splits[3]);
+    }
+
+    else 
+    {
+        int k = 0;
+        for (int i = 1; i < k; i++)
+        {
+            switch (i){
+            case BASIC:
+                k = BASIC;
+                break;
+            case FANCY:
+               k = 2;
+                break;
+            case LUXURY:
+                k = 3;
+                break;
+            }
+            if (i == BASIC || i == FANCY || i == LUXURY)
+            {
+                printf("\t%d.%s:\n\t\t--%s GP\n\t\t--Stronghold Spaces: %s\n\n",k ,splits[i], splits[i + 1], splits[i + 2]);
+            }
+            k++;
+        }
+    }
+    
+    iErr = scanf("%d", &count);
+    //We use the previous use of k to keep track of how many options there are
+    while (count < k || count > k)
+    {
+        printf("Please select a valid option:\n");
+        iErr = scanf("%d", &count);
+    }
+    //Basically just use the reverse of the above case switch to properly grab the data we need
+    //for making a new Room
+    switch (count)
+    {
+    case 1:
+        count = BASIC;
+        break;
+    case 2: 
+        count = FANCY;
+        break;
+    case 3:
+        count = LUXURY;
+    }
+
+    if (roomExists(floor, splits, count))
+    {
+        Room* r = getRoom(floor, splits, count);
+        r->numRooms++;
+    }
+    else
+    {
+        addRoom(floor, splits, count);
+    }
+   
+
+
+    return;
 }

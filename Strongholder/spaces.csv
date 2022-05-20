@@ -1,13 +1,13 @@
 Alchemical Labratory,Basic,700,1,Fancy,3000,1
 Armory,Basic,500,1,Fancy,2000,1
 Auditorium,Fancy,20000,1,Luxury,10000,1
-Barbican,1000,1
-Barracks,400,1
+Barbican,N/A,1000,1
+Barracks,N/A,400,1
 Bath,Basic,400,0.5,Fancy,2000,1,Luxury,10000,2
 Bedrooms,Basic,700,1,Fancy,4000,1,Luxury,20000,2
 Bedroom Suite,Basic,800,1,Fancy,5000,1,Luxury,25000,2
 Chapel,Basic,1000,1,Fancy,6000,2,Luxury,25000,2
-Common Area,Basic,500,1,Fancy,3,000,1
+Common Area,Basic,500,1,Fancy,3000,1
 Courtyard,Basic,500,1,Fancy,3000,1,Luxury,15000,1
 Dining Hall,Basic,2000,2,Fancy,12000,2,Luxury,50000,2
 Dock,Basic,500,1,Extended,3000,2,Extended (Dry),15000,2
