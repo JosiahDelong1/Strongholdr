@@ -144,6 +144,8 @@ short getFloorSize(Floor*);
 //Will calculate end totals with all modifiers
 void getStrongholdEndTotal(Stronghold*);
 
+Floor* selectFloor(Stronghold*);
+
 void addRoom(Floor*, char**, int rSelection);
 
 //Will return the chosen room information for adding to floor

@@ -69,6 +69,7 @@ void displayStronghold(Stronghold* sPtr)
 
 	for (int i = 0; i < sPtr->numFloors; i++)
 	{
+		printf("\n%d. ", i + 1);
 		displayFloor(sPtr->fPtr[i]);
 	}
 }
@@ -80,11 +81,11 @@ void displayFloor(Floor* fPtr)
 	else
 		printf("Floor #%d\n", fPtr->level);
 
-	printf("\nNumber of Rooms: %d\nStronghold Space Total: %d", fPtr->numRooms, fPtr->ssTotal);
+	printf("\n\tNumber of Rooms: %d\n\tStronghold Space Total: %d", fPtr->numRooms, fPtr->ssTotal);
 	if(fPtr->level < 0)
-		printf("\nLevel: %d\nLayer: %d\nExtra Floor Costs: %d\n\n", fPtr->level, abs(fPtr->level) + 2,fPtr->layerCost);
+		printf("\n\tLevel: %d\n\tLayer: %d\n\tExtra Floor Costs: %d\n\n", fPtr->level, abs(fPtr->level) + 2,fPtr->layerCost);
 	else
-		printf("\nLevel: %d\nLayer: %d\nExtra Floor Costs: %d\n\n", fPtr->level + 1, fPtr->level +2, fPtr->layerCost);
+		printf("\n\tLevel: %d\n\tLayer: %d\n\tExtra Floor Costs: %d\n\n", fPtr->level + 1, fPtr->level +2, fPtr->layerCost);
 	
 	//The room pointer array always initialiizes to NULL
 	if (fPtr->rPtr != NULL)
@@ -98,7 +99,7 @@ void displayFloor(Floor* fPtr)
 
 void displayRoom(Room* rPtr)
 {	//Name: Type: Cost: Stronghold Spaces: Copies:
-	printf("\t\t%s\n\t\t%s\n\t\t%d\n\t\t%d\n\t\t%d\n", rPtr->sName, rPtr->sType, rPtr->price, rPtr->ssSize, rPtr->numRooms);
+	printf("\n\n\t\tRoom: %s\n\t\tType: %s\n\t\tCost in Gold: %d\n\t\tStronghold Spaces: %d\n\t\tQuantity: %d\n", rPtr->sName, rPtr->sType, rPtr->price, rPtr->ssSize, rPtr->numRooms);
 }
 
 
@@ -156,6 +157,15 @@ void sortFloors(Stronghold* sPtr)
 	}
 }
 
+short getFloorSize(Floor* fPtr)
+{
+	fPtr->ssTotal = 0;
+	for (int i = 0; i < fPtr->numRooms; i++)
+	{
+		fPtr->ssTotal += (fPtr->rPtr[i]->ssSize * fPtr->rPtr[i]->numRooms);
+	}
+}
+
 unsigned short getLayerCost(Floor* fPtr)
 {
 	//I can check the layer cost by getting the absolute
@@ -191,7 +201,7 @@ unsigned short getLayerCost(Floor* fPtr)
 
 void addRoom(Floor* fPtr, char** splits, int rSelection)
 {
-	fPtr->numRooms = 1;
+	fPtr->numRooms++;
 
 	//Then we need to reallocate the space we had previously set for all the floors
 	if(fPtr->rPtr == NULL)
@@ -215,6 +225,8 @@ void addRoom(Floor* fPtr, char** splits, int rSelection)
 	r->price = atoi(splits[rSelection + 1]);
 	r->ssSize = atoi(splits[rSelection + 2]);
 	r->numRooms = 1;
+
+	getFloorSize(fPtr);
 }
 
 /*
@@ -227,6 +239,8 @@ void addRoom(Floor* fPtr, char** splits, int rSelection)
 */
 void getRoomInfo(FILE* fPtr)
 {
+	//Make sure to set the file pointer back to the start ;)
+	fseek(fPtr, 0, SEEK_SET);
     char* rString;
     const char sep[2] = ",";
 
@@ -252,6 +266,31 @@ void getRoomInfo(FILE* fPtr)
     }
     
     free(rString);
+}
+
+
+Floor* selectFloor(Stronghold* sPtr)
+{
+	int count;
+	for (int i = 0; i < sPtr->numFloors; i++)
+	{
+		printf("\n%d. ", i + 1);
+		displayFloor(sPtr->fPtr[i]);
+	}
+	printf("Please select a floor:\n(-1 to exit)\n");
+	int iErr = scanf("%d", &count);
+
+	
+	while (count < 1 || count > sPtr->numFloors)
+	{
+		if (count == -1)
+			return NULL;
+		printf("Please enter a valid selection (1 - %d):\n(-1 to exit)\n", sPtr->numFloors);
+		int iErr = scanf("%d", &count);
+	}
+	return sPtr->fPtr[count - 1];
+
+
 }
 
 void selectRoomAndType(Floor* floor, FILE* fPtr)

@@ -132,13 +132,31 @@ void testStrTok(FILE* fPtr)
 	*/
 }
 
-void testAddRoom(FILE* fPtr)
+void testAddRoom(Stronghold* sPtr, FILE* fPtr)
 {
-	Floor floor;
-	initializeFloorOne(&floor);
-	getRoomInfo(fPtr);
-	selectRoomAndType(&floor, fPtr);
-	displayFloor(&floor);
+	
+	//Adding room steps
+	Floor* floorPtr;
+	if (floorPtr = selectFloor(sPtr))
+	{
+		getRoomInfo(fPtr);
+		selectRoomAndType(floorPtr, fPtr);
+		displayFloor(floorPtr);
+	}
+
+	if (floorPtr = selectFloor(sPtr))
+	{
+		getRoomInfo(fPtr);
+		selectRoomAndType(floorPtr, fPtr);
+		displayFloor(floorPtr);
+	}
+
+	if (floorPtr = selectFloor(sPtr))
+	{
+		getRoomInfo(fPtr);
+		selectRoomAndType(floorPtr, fPtr);
+		displayFloor(floorPtr);
+	}
 }
 
 
@@ -147,7 +165,7 @@ void testAddRoom(FILE* fPtr)
 	 
 	 
 	Stronghold nStrong;
-
+	initializeStronghold(&nStrong);
 	//testStrongholdAddFloor(&nStrong);
 	//showStrongholdData(&nStrong);
 
@@ -159,7 +177,7 @@ void testAddRoom(FILE* fPtr)
 	//fseek(fPtr, 0, SEEK_SET);
 
 	// testStrTok(fPtr);
-	testAddRoom(fPtr);
+	testAddRoom(&nStrong, fPtr);
 
 	return 0;
 }
