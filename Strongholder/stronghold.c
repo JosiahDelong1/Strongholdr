@@ -202,11 +202,16 @@ void addRoom(Floor* fPtr, char** splits, int rSelection)
 
 	//Create a new Floor pointer for the sake of convenience
 	Room* r = fPtr->rPtr[fPtr->numRooms - 1] = (Floor*)malloc(sizeof(Floor));
+	printf("%s", splits[rSelection]);
 
-	r->nameSize = atoi(strlen(splits[0]));
+	r->nameSize = strlen(splits[0]);
+	r->sName = (char*)malloc((sizeof(char) * r->nameSize) + 1);
 	strcpy(r->sName, splits[0]);
-	r->typeSize = atoi(strlen(splits[rSelection]));
+
+	r->typeSize = strlen(splits[rSelection]);
+	r->sType = (char*)malloc((sizeof(char) * r->typeSize) + 1);
 	strcpy(r->sType,splits[rSelection]);
+
 	r->price = atoi(splits[rSelection + 1]);
 	r->ssSize = atoi(splits[rSelection + 2]);
 	r->numRooms = 1;
@@ -265,21 +270,24 @@ void selectRoomAndType(Floor* floor, FILE* fPtr)
     count--;
     while(count < 0 || count > 33)
     {
-        printf("Please enter a valid room number (1 - 32)\n");
+        printf("Please enter a valid room number (1 - 32)\nEnter -1 to exit:\n");
         iErr = scanf("%d", &count);
+		if (count == -1)
+		{
+			printf("okay\n");
+			return;
+		}
         count--;
     }
 
-    if (count == -1)
-    {
-        printf("okay\n");
-        return;
-    }
+   //Grab the line of the room the user wants
 	while (fgets(rString, MAX_CHAR_LENGTH, fPtr) && k < count)
 	{
 		k++;
 	}
 
+	//Split the line into usable strings
+	//Keep k to track the number of splits we have later
 	char* token = strtok(rString, sep);
 	k = 0;
 	while(token != NULL)
@@ -290,59 +298,63 @@ void selectRoomAndType(Floor* floor, FILE* fPtr)
 		token = strtok(NULL, sep);
 	}
 
-    k = 0;
-    //If an entry in the .csv has "N/A" and only 1 type, just skip the for loop
+	int j = 0;
+	//If an entry in the .csv has "N/A" and only 1 type, just skip the for loop
     printf("\n\n%s:\n", splits[0]);
     if (strcmp(splits[1], "N/A") == 0)
     {
         printf("\n\t--%s GP\n\t--Stronghold Spaces: %s\n\n", splits[2], splits[3]);
     }
-
     else 
     {
-        int k = 0;
         for (int i = 1; i < k; i++)
         {
             switch (i){
             case BASIC:
-                k = BASIC;
+                j = BASIC;
                 break;
             case FANCY:
-               k = 2;
+               j = 2;
                 break;
             case LUXURY:
-                k = 3;
+                j = 3;
                 break;
             }
             if (i == BASIC || i == FANCY || i == LUXURY)
             {
-                printf("\t%d.%s:\n\t\t--%s GP\n\t\t--Stronghold Spaces: %s\n\n",k ,splits[i], splits[i + 1], splits[i + 2]);
+                printf("\t%d.%s:\n\t\t--%s GP\n\t\t--Stronghold Spaces: %s\n\n",j ,splits[i], splits[i + 1], splits[i + 2]);
             }
-            k++;
         }
     }
     
-    iErr = scanf("%d", &count);
-    //We use the previous use of k to keep track of how many options there are
-    while (count < k || count > k)
-    {
-        printf("Please select a valid option:\n");
-        iErr = scanf("%d", &count);
-    }
-    //Basically just use the reverse of the above case switch to properly grab the data we need
-    //for making a new Room
-    switch (count)
-    {
-    case 1:
-        count = BASIC;
-        break;
-    case 2: 
-        count = FANCY;
-        break;
-    case 3:
-        count = LUXURY;
-    }
-
+	if (j != 0)
+	{
+		printf("Please select a  option:\n");
+		iErr = scanf("%d", &count);
+		//We use the previous use of k to keep track of how many options there are
+		while (count < 1 || count > j)
+		{
+			printf("Please select a valid option:\n");
+			iErr = scanf("%d", &count);
+		}
+		//Basically just use the reverse of the above case switch to properly grab the data we need
+		//for making a new Room
+		switch (count)
+		{
+		case 1:
+			count = BASIC;
+			break;
+		case 2:
+			count = FANCY;
+			break;
+		case 3:
+			count = LUXURY;
+		}
+	}
+	else
+	{
+		count = 1;
+	}
     if (roomExists(floor, splits, count))
     {
         Room* r = getRoom(floor, splits, count);

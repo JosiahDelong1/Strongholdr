@@ -135,8 +135,10 @@ void testStrTok(FILE* fPtr)
 void testAddRoom(FILE* fPtr)
 {
 	Floor floor;
+	initializeFloorOne(&floor);
 	getRoomInfo(fPtr);
 	selectRoomAndType(&floor, fPtr);
+	displayFloor(&floor);
 }
 
 
