@@ -46,18 +46,18 @@
 
 typedef struct
 {
+	float ssSize;
 	unsigned short price;
-	unsigned short ssSize;
-
+	
 	//need to keep track of the char sizes for serialization
 	unsigned short nameSize;
 	unsigned short typeSize;
 
-	unsigned char* sName;
-	unsigned char* sType;
-
 	//Will keep track of duplicate rooms on the floor, keeps from duplicate structs taking up space
 	unsigned short numRooms;
+
+	unsigned char* sName;
+	unsigned char* sType;
 
 }Room;
 
@@ -65,8 +65,8 @@ typedef struct
 {
 	//numRooms is strictly the number of Room Pointers, roomTotal will be the actual number of rooms
 	unsigned short numRooms;
-	unsigned short ssTotal;
 	unsigned short roomTotal;
+	float ssTotal;
 	//Shows level of this floor, floors can be above and below ground, 
 	//0 is ground floor, above are floors, below are basements
 	short level;
@@ -82,12 +82,12 @@ typedef struct
 //Struct used to keep track of everything within the stronghold
 typedef struct
 {
-	unsigned int totalSSPrice;
-	unsigned short totalSize;
-	unsigned short numFloors;
+	float totalSize;
 	unsigned int EndTotal;
 
+	unsigned short numFloors;
 	unsigned short numBedsNeeded;
+
 	unsigned short totalBeds;
 	unsigned short workersNeeded;
 
@@ -140,7 +140,7 @@ void setTotals(Stronghold*);
 
 short getStrongholdSize(Stronghold*);
 
-short getFloorSize(Floor*);
+void getFloorStats(Floor* fPtr);
 
 //Will calculate end totals with all modifiers
 void getStrongholdEndTotal(Stronghold*);
