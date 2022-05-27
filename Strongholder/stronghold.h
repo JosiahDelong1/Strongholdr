@@ -52,6 +52,7 @@ typedef struct
 	//need to keep track of the char sizes for serialization
 	unsigned short nameSize;
 	unsigned short typeSize;
+	unsigned char* sName;
 
 	//Will keep track of duplicate rooms on the floor, keeps from duplicate structs taking up space
 	unsigned short numRooms;
@@ -145,6 +146,8 @@ void getFloorStats(Floor* fPtr);
 //Will calculate end totals with all modifiers
 void getStrongholdEndTotal(Stronghold*);
 
+void addFloor(Stronghold*);
+void addRoom(Floor*, int layerCost );
 Floor* selectFloor(Stronghold*);
 
 void addRoom(Floor*, char**, int rSelection);
@@ -160,6 +163,8 @@ void getRoomInfo(FILE*);
 void selectRoomAndType(Floor*, FILE*);
 
 bool roomExists(Floor*, char**, int rSelection);
+
+void addRoom(Floor*);
 
 Room* getRoom(Floor*, char**, int rSelection);
 

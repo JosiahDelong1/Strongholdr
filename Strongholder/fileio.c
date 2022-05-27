@@ -48,4 +48,3 @@ FILE* openFile(const char* fileName, const char* fileMode)
     }
 }
 
-
