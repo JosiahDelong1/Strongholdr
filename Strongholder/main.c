@@ -11,7 +11,7 @@
 
 /*
 	Name: Strongholder
-	Purpose: A program to help DM's and players alike build and budget their homebrew stronholds and bases
+	Purpose: A program to help DM's and players alike build and budget their homebrew strongholds and bases
 
 	Copyright (C) 2022  Josiah DeLong
 
@@ -166,7 +166,7 @@ void testAddRoom(Stronghold* sPtr, FILE* fPtr)
 	 
 	Stronghold nStrong;
 	initializeStronghold(&nStrong);
-	//testStrongholdAddFloor(&nStrong);
+	testStrongholdAddFloor(&nStrong);
 	//showStrongholdData(&nStrong);
 
 	FILE* fPtr = openFile("spaces.csv", "r");
@@ -178,6 +178,9 @@ void testAddRoom(Stronghold* sPtr, FILE* fPtr)
 
 	// testStrTok(fPtr);
 	testAddRoom(&nStrong, fPtr);
+
+	displayStronghold(&nStrong);
+
 
 	return 0;
 }

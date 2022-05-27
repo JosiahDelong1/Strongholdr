@@ -11,7 +11,7 @@
 
 /*
 	Name: Strongholder
-	Purpose: A program to help DM's and players alike build and budget their homebrew stronholds and bases
+	Purpose: A program to help DM's and players alike build and budget their homebrew strongholds and bases
 
 	Copyright (C) 2022  Josiah DeLong
 
@@ -58,7 +58,9 @@ void initializeFloorOne(Floor* fPtr)
 {
 	fPtr->numRooms = 0;
 	fPtr->ssTotal = 0;
+	fPtr->roomTotal = 0;
 	fPtr->level = 0;
+	fPtr->floorCost = 0;
 	fPtr->layerCost = STARTER_LAYER;
 	fPtr->rPtr = NULL;
 }
@@ -81,7 +83,7 @@ void displayFloor(Floor* fPtr)
 	else
 		printf("Floor #%d\n", fPtr->level);
 
-	printf("\n\tNumber of Rooms: %d\n\tStronghold Space Total: %d", fPtr->numRooms, fPtr->ssTotal);
+	printf("\n\tNumber of Rooms: %d\n\tTotal Cost in Gold: %d\n\tStronghold Space Total: %d", fPtr->roomTotal, fPtr->floorCost, fPtr->ssTotal);
 	if(fPtr->level < 0)
 		printf("\n\tLevel: %d\n\tLayer: %d\n\tExtra Floor Costs: %d\n\n", fPtr->level, abs(fPtr->level) + 2,fPtr->layerCost);
 	else
@@ -92,14 +94,14 @@ void displayFloor(Floor* fPtr)
 	{
 		for (int i = 0; i < fPtr->numRooms; i++)
 		{
-			displayRoom(fPtr->rPtr[i]);
+			displayRoom(fPtr->rPtr[i], fPtr->layerCost);
 		}
 	}
 }
 
-void displayRoom(Room* rPtr)
+void displayRoom(Room* rPtr, unsigned short layerCost)
 {	//Name: Type: Cost: Stronghold Spaces: Copies:
-	printf("\n\n\t\tRoom: %s\n\t\tType: %s\n\t\tCost in Gold: %d\n\t\tStronghold Spaces: %d\n\t\tQuantity: %d\n", rPtr->sName, rPtr->sType, rPtr->price, rPtr->ssSize, rPtr->numRooms);
+	printf("\n\n\t\tRoom: %s\n\t\tType: %s\n\t\tRoom Cost in Gold: %d\n\t\tStronghold Spaces: %d\n\t\tQuantity: %d\n\t\tTotal Cost in Gold: %d\n\t\tStronghold Space Total: %d", rPtr->sName, rPtr->sType, rPtr->price, rPtr->ssSize, rPtr->numRooms, (rPtr->price * rPtr->numRooms) + (layerCost * rPtr->numRooms), rPtr->ssSize * rPtr->numRooms);
 }
 
 
@@ -120,7 +122,8 @@ void addFloor(Stronghold* sPtr, bool floorType)
 
 	fPtr->numRooms = 0;
 	fPtr->ssTotal = 0;
-	
+	fPtr->roomTotal = 0;
+	fPtr->floorCost = 0;
 	//Here we are checking if we need to increment/decrement height/depth
 	//using a typedef'd bool, then we set the level
 	if (floorType == NewFloor)
@@ -160,9 +163,14 @@ void sortFloors(Stronghold* sPtr)
 short getFloorSize(Floor* fPtr)
 {
 	fPtr->ssTotal = 0;
+	fPtr->roomTotal = 0;
+	fPtr->floorCost = 0;
+
 	for (int i = 0; i < fPtr->numRooms; i++)
 	{
 		fPtr->ssTotal += (fPtr->rPtr[i]->ssSize * fPtr->rPtr[i]->numRooms);
+		fPtr->roomTotal += fPtr->rPtr[i]->numRooms;
+		fPtr->floorCost += (fPtr->rPtr[i]->price * fPtr->rPtr[i]->numRooms) + (getLayerCost(fPtr) * fPtr->rPtr[i]->numRooms);
 	}
 }
 
@@ -398,6 +406,7 @@ void selectRoomAndType(Floor* floor, FILE* fPtr)
     {
         Room* r = getRoom(floor, splits, count);
         r->numRooms++;
+		getFloorSize(floor);
     }
     else
     {

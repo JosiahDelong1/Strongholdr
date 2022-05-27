@@ -4,7 +4,7 @@
 
 /*
 	Name: Strongholder
-	Purpose: A program to help DM's and players alike build and budget their homebrew stronholds and bases
+	Purpose: A program to help DM's and players alike build and budget their homebrew strongholds and bases
 
 	Copyright (C) 2022  Josiah DeLong
 
@@ -63,16 +63,17 @@ typedef struct
 
 typedef struct
 {
+	//numRooms is strictly the number of Room Pointers, roomTotal will be the actual number of rooms
 	unsigned short numRooms;
 	unsigned short ssTotal;
-
+	unsigned short roomTotal;
 	//Shows level of this floor, floors can be above and below ground, 
 	//0 is ground floor, above are floors, below are basements
 	short level;
 
 	//Each floor above 2 and basement below -1 have additional room costs
 	unsigned short layerCost;
-
+	unsigned int floorCost;
 	//Each floor will have an array of rooms that can vary
 	//Future implementation of hashmap rather than array for faster adding and removing of rooms would be cool
 	Room** rPtr;
@@ -128,7 +129,7 @@ void displayStronghold(Stronghold*);
 
 void displayFloor(Floor*);
 
-void displayRoom(Room*);
+void displayRoom(Room*, unsigned short layerCost);
 
 void addFloor(Stronghold* sPtr, bool floorType);
 
