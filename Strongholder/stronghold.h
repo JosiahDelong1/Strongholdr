@@ -2,9 +2,28 @@
 #define STRONGHOLD_H
 #include <stdbool.h>
 
+/*
+	Name: Strongholder
+	Purpose: A program to help DM's and players alike build and budget their homebrew stronholds and bases
 
-#define MAX_SS_NAME 21
-#define MAX_SS_TYPE 7
+	Copyright (C) 2022  Josiah DeLong
+
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+#define MAX_SS_LENGTH 21
+
 
 //These will be used to modify room prices on different floor
 #define STARTER_LAYER 0
@@ -32,9 +51,13 @@ typedef struct
 
 	//need to keep track of the char sizes for serialization
 	unsigned short nameSize;
+	unsigned short typeSize;
 	unsigned char* sName;
 
+	//Each Stronghold has an array of floors, both above and below ground
+	Floor** fPtr; 
 	unsigned short typeSize;
+	unsigned char* sName;
 	unsigned char* sType;
 
 	//Will keep track of duplicate rooms on the floor, keeps from duplicate structs taking up space
@@ -125,7 +148,27 @@ short getFloorSize(Floor*);
 //Will calculate end totals with all modifiers
 void getStrongholdEndTotal(Stronghold*);
 
+void addFloor(Stronghold*);
 void addRoom(Floor*, int layerCost );
+Floor* selectFloor(Stronghold*);
+
+void addRoom(Floor*, char**, int rSelection);
+
+//Will return the chosen room information for adding to floor
+//getRoom will call getRoomInfo, which will query the user
+//from there, we get their inputs and return the room
+//We will need to get 2 inputs from user, which room, and the style
+//of the room (Basic, Fancy, Luxury, etc)
+//Will read from provided file to give a list of rooms available
+void getRoomInfo(FILE*);
+
+void selectRoomAndType(Floor*, FILE*);
+
+bool roomExists(Floor*, char**, int rSelection);
+
+void addRoom(Floor*);
+
+Room* getRoom(Floor*, char**, int rSelection);
 
 unsigned short getLayerCost(Floor*);
 
@@ -133,6 +176,10 @@ void removeRoom(Floor*);
 
 //Will remove an entire floor, including all rooms, will have to put extreme warning
 void removeFloor(Stronghold*);
+
+void freeFloors(Stronghold*);
+
+void freeRooms(Floor*);
 
 void setMilitary(Stronghold*);
 
