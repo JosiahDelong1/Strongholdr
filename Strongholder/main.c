@@ -134,29 +134,7 @@ void testStrTok(FILE* fPtr)
 
 void testAddRoom(Stronghold* sPtr, FILE* fPtr)
 {
-	
-	//Adding room steps
-	Floor* floorPtr;
-	if (floorPtr = selectFloor(sPtr))
-	{
-		getRoomInfo(fPtr);
-		selectRoomAndType(floorPtr, fPtr);
-		displayFloor(floorPtr);
-	}
-
-	if (floorPtr = selectFloor(sPtr))
-	{
-		getRoomInfo(fPtr);
-		selectRoomAndType(floorPtr, fPtr);
-		displayFloor(floorPtr);
-	}
-
-	if (floorPtr = selectFloor(sPtr))
-	{
-		getRoomInfo(fPtr);
-		selectRoomAndType(floorPtr, fPtr);
-		displayFloor(floorPtr);
-	}
+	addRoomToFloor(sPtr, fPtr);
 }
 
 

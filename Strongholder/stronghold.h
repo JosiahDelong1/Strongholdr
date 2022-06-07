@@ -145,8 +145,11 @@ void getFloorStats(Floor* fPtr);
 //Will calculate end totals with all modifiers
 void getStrongholdEndTotal(Stronghold*);
 
+void addRoomToFloor(Stronghold* sPtr, FILE* fPtr);
+
 Floor* selectFloor(Stronghold*);
 
+//Adds the actual room to floor pointer
 void addRoom(Floor*, char**, int rSelection);
 
 //Will return the chosen room information for adding to floor

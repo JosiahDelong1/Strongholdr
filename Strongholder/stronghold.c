@@ -104,6 +104,20 @@ void displayRoom(Room* rPtr, unsigned short layerCost)
 }
 
 
+//Calls all the necessary functions to add the wanted room to a floor
+void addRoomToFloor(Stronghold* sPtr, FILE* fPtr)
+{
+	//Adding room steps
+	Floor* floorPtr;
+	if (floorPtr = selectFloor(sPtr))
+	{
+		getRoomInfo(fPtr);
+		selectRoomAndType(floorPtr, fPtr);
+		displayFloor(floorPtr);
+	}
+}
+
+
 //Will be useful for setting the extra layer cost needed for adding rooms
 //Will need height and depth in order to increment where needed
 //REMEMBER: To add freeing function when removing Rooms and Floors
