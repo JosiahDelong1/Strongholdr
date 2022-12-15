@@ -22,6 +22,9 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+//I genuinely do not remember why I needed this?
+//Maybe for serialization for reading each byte to a file?
+//But it's a definition for Stronghold Spaces so who knows
 #define MAX_SS_LENGTH 21
 
 
