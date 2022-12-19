@@ -13,7 +13,7 @@
 	Name: Strongholder
 	Purpose: A program to help DM's and players alike build and budget their homebrew strongholds and bases
 
-	Copyright (C) 2022  Josiah DeLong
+	Copyright (C) 2022 Josiah DeLong
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -134,6 +134,10 @@ void testStrTok(FILE* fPtr)
 
 void testAddRoom(Stronghold* sPtr, FILE* fPtr)
 {
+	addRoomToFloor(sPtr, fPtr);
+	addRoomToFloor(sPtr, fPtr);
+	addRoomToFloor(sPtr, fPtr);
+	addRoomToFloor(sPtr, fPtr);
 	addRoomToFloor(sPtr, fPtr);
 }
 

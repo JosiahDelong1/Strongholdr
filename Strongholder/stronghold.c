@@ -189,10 +189,16 @@ void getFloorStats(Floor* fPtr)
 
 unsigned short getLayerCost(Floor* fPtr)
 {
+	int layer;
+
 	//I can check the layer cost by getting the absolute
-	//of the layer cost and adding 2 if it was negative initially
-	int layer = abs(fPtr->level) + 2;
-	
+	//of the layer cost and adding 2 if it was negative initially,
+	//or adding only 1 if it is positive
+	if (fPtr->level < 0)
+		layer = abs(fPtr->level) + 2;
+	else
+		layer = fPtr->level + 1;
+
 	/*Layer is different from level, so this may be a tad confusing :(
 	Basement 1 through Floor 2 are first 3 Layers, not really gone into more depth in the book
 	Basement 2 and Floor 3 is Layer 4
