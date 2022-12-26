@@ -11,4 +11,4 @@ Eventually I would like to add a GUI, but for now I will be implementing a comma
 This project falls under the GNU General Public License v3.0
 
 ## Project status
-Currently working on this as my summer project while I seek employment :|
+Currently working on this in my spare time, unfortunately have not made spare time :|
