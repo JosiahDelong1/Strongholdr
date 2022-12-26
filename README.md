@@ -4,7 +4,7 @@ A C developed program to automate the stronghold building rules found in the D&D
 
 ## Roadmap
 
-Eventually I would like to add a GUI, but for now I will eventually be implementing a command line for creating strongholds
+Eventually I would like to add a GUI, but for now I will be implementing a command line for creating strongholds
 
 
 ## License
