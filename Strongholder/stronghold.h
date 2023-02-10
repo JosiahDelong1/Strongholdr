@@ -22,6 +22,8 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+//The longest length of any String for a given Stronghold Space
+//21 is account for /0
 #define MAX_SS_LENGTH 21
 
 
