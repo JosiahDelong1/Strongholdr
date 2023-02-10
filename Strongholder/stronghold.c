@@ -264,6 +264,10 @@ void addRoom(Floor* fPtr, char** splits, int rSelection)
     split that line to prompt for space type and size
     add room using that selection
 */
+
+//From what I can tell, this function gets all the room options
+//and prints them out for the user to see?
+//Whoops, guess I should've left comments 9 moonths ago when I was working on this lol
 void getRoomInfo(FILE* fPtr)
 {
 	//Make sure to set the file pointer back to the start ;)
@@ -322,47 +326,19 @@ Floor* selectFloor(Stronghold* sPtr)
 
 void selectRoomAndType(Floor* floor, FILE* fPtr)
 {
-    fseek(fPtr, 0, SEEK_SET);
-    char* rString = (char*)malloc(sizeof(char) * MAX_CHAR_LENGTH);
-    char** splits = (char**)malloc(sizeof(char*) * MAX_ARRAY_LENGTH);
-	const char sep[2] = ",";
-	
-    int count;
-	int k = 0;
+	int* count = (int*)malloc(sizeof(int));
+	int* k = (int*)malloc(sizeof(int));
 
-    //Some minor input validation, don't want the user inputing 
-    printf("Please Select a Room:\n");
-    int iErr = scanf("%d", &count);
-    count--;
-    while(count < 0 || count > 33)
-    {
-        printf("Please enter a valid room number (1 - 32)\nEnter -1 to exit:\n");
-        iErr = scanf("%d", &count);
-		if (count == -1)
-		{
-			printf("okay\n");
-			return;
-		}
-        count--;
-    }
-
-   //Grab the line of the room the user wants
-	while (fgets(rString, MAX_CHAR_LENGTH, fPtr) && k < count)
+	char** splits = split(fPtr, count, k);
+	if (splits == NULL)
 	{
-		k++;
+		free(count);
+		free(k);
+		free(splits);
+		printf("No Room added :(");
+		return;
 	}
 
-	//Split the line into usable strings
-	//Keep k to track the number of splits we have later
-	char* token = strtok(rString, sep);
-	k = 0;
-	while(token != NULL)
-	{
-		splits[k] = (char*)malloc(sizeof(char) * strlen(token));
-		strcpy(splits[k], token);
-		k++;
-		token = strtok(NULL, sep);
-	}
 
 	int j = 0;
 	//If an entry in the .csv has "N/A" and only 1 type, just skip the for loop
@@ -373,7 +349,7 @@ void selectRoomAndType(Floor* floor, FILE* fPtr)
     }
     else 
     {
-        for (int i = 1; i < k; i++)
+        for (int i = 1; i < *k; i++)
         {
             switch (i){
             case BASIC:
@@ -396,43 +372,101 @@ void selectRoomAndType(Floor* floor, FILE* fPtr)
 	if (j != 0)
 	{
 		printf("Please select a  option:\n");
-		iErr = scanf("%d", &count);
+		int iErr = scanf("%d", count);
 		//We use the previous use of k to keep track of how many options there are
-		while (count < 1 || count > j)
+		while (*count < 1 || *count > j)
 		{
 			printf("Please select a valid option:\n");
-			iErr = scanf("%d", &count);
+			iErr = scanf("%d", count);
 		}
 		//Basically just use the reverse of the above case switch to properly grab the data we need
 		//for making a new Room
-		switch (count)
+		switch (*count)
 		{
 		case 1:
-			count = BASIC;
+			*count = BASIC;
 			break;
 		case 2:
-			count = FANCY;
+			*count = FANCY;
 			break;
 		case 3:
-			count = LUXURY;
+			*count = LUXURY;
 		}
 	}
 	else
 	{
-		count = 1;
+		*count = 1;
 	}
-    if (roomExists(floor, splits, count))
+    if (roomExists(floor, splits, *count))
     {
-        Room* r = getRoom(floor, splits, count);
+        Room* r = getRoom(floor, splits, *count);
         r->numRooms++;
 		getFloorStats(floor);
     }
     else
     {
-        addRoom(floor, splits, count);
+        addRoom(floor, splits, *count);
     }
+
+	free(count);
+	free(k);
+	free(splits);
 }
 
+char** split(FILE* fPtr, int* count, int* k)
+{
+	fseek(fPtr, 0, SEEK_SET);
+	char* rString = (char*)malloc(sizeof(char) * MAX_CHAR_LENGTH);
+	char** splits = (char**)malloc(sizeof(char*) * MAX_ARRAY_LENGTH);
+	const char sep[2] = ",";
+
+	*k = 0;
+
+	if (rString == NULL || splits == NULL) {
+		// Handle memory allocation error
+		return 1;
+	}
+
+	//Some minor input validation, don't want the user inputing 
+	printf("Please Select a Room (1 - 32)\nEnter -1 to exit:\n");
+	int iErr = scanf("%d", count);
+	(*count)--;
+	while ((*count < 0 || *count > 33) || (*count + 1) == -1)
+	{
+		if ((*count + 1) == -1)
+		{
+			printf("Exiting...\n");
+			return NULL;
+		}
+		printf("Please enter a valid room number (1 - 32)\nEnter -1 to exit:\n");
+		iErr = scanf("%d", count);
+
+		(*count)--;
+	}
+
+	//Grab the line of the room the user wants
+	while (fgets(rString, MAX_CHAR_LENGTH, fPtr) && *k < *count)
+	{
+		(*k)++;
+	}
+
+	//Split the line into usable strings
+	//Keep k to track the number of splits we have later
+	char* token = strtok(rString, sep);
+	*k = 0;
+	while (token != NULL)
+	{
+		splits[*k] = (char*)malloc(sizeof(char) * (strlen(token) + 1));
+
+		strcpy(splits[*k], token);
+		(*k)++;
+		token = strtok(NULL, sep);
+	}
+
+	free(rString);
+
+	return splits;
+}
 
 bool roomExists(Floor* fPtr, char** splits, int rSelection)
 {

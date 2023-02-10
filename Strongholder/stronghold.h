@@ -120,6 +120,7 @@ typedef struct
 
 
 /* FUNCTIONS */
+char** split(FILE*, int*, int*);
 
 void initializeStronghold(Stronghold*);
 

@@ -78,10 +78,13 @@ void testStrTok(FILE* fPtr)
 
 	while(token != NULL)
 	{
-		printf("%d: %s\n", k, token);
-		splits[k] = (char*)malloc(sizeof(char) * strlen(token));
-		strcpy(splits[k], token);
-		k++;
+		if (token != NULL)
+		{
+			printf("%d: %s\n", k, token);
+			splits[k] = (char*)malloc(sizeof(char) * strlen(token));
+			strcpy(splits[k], token);
+			k++;
+		}
 		token = strtok(NULL, sep);
 	}
 	
@@ -162,7 +165,7 @@ void testAddRoom(Stronghold* sPtr, FILE* fPtr)
 	testAddRoom(&nStrong, fPtr);
 
 	displayStronghold(&nStrong);
-
+	fclose(fPtr);
 
 	return 0;
 }
