@@ -79,8 +79,10 @@ void displayFloor(Floor* fPtr)
 {
 	if (fPtr->level < 0)
 		printf("Basement #%d\n", abs(fPtr->level));
+	else if (fPtr->level == 0)
+		printf("Ground Floor (%d)\n", abs(fPtr->level)+1);
 	else
-		printf("Floor #%d\n", fPtr->level);
+		printf("Floor #%d\n", (fPtr->level)+1);
 
 	printf("\n\tNumber of Rooms: %d\n\tTotal Cost in Gold: %d\n\tStronghold Space Total: %.2f", fPtr->roomTotal, fPtr->floorCost, fPtr->ssTotal);
 	if(fPtr->level < 0)
