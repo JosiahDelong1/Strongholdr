@@ -47,6 +47,9 @@
 #define NewFloor true
 #define NewBasement false
 
+#define workSplitter true
+#define roomSplitter false
+
 typedef struct
 {
 	float ssSize;
@@ -124,6 +127,10 @@ typedef struct
 
 /* FUNCTIONS */
 
+//Need to add a Bool to check if for splitting room choices or workers
+//to avoid printing lines for one or the other
+char** splitSelection(FILE*, int*, int*, bool);
+
 void initializeStronghold(Stronghold*);
 
 void initializeFloorOne(Floor*);
@@ -148,8 +155,11 @@ void getFloorStats(Floor* fPtr);
 //Will calculate end totals with all modifiers
 void getStrongholdEndTotal(Stronghold*);
 
+void addRoomToFloor(Stronghold* sPtr, FILE* fPtr);
+
 Floor* selectFloor(Stronghold*);
 
+//Adds the actual room to floor pointer
 void addRoom(Floor*, char**, int rSelection);
 
 //Will return the chosen room information for adding to floor

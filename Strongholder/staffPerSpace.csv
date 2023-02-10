@@ -1,0 +1,35 @@
+Alchemical Laboratory,Fancy,Alchemist,1
+Barbican,N/A,Guard,2
+Bath,Luxury,Servant,1,Valet,1
+Bedroom Suite,Luxury,Valet,1
+Bedrooms,Luxury,Valet,1
+Chapel,Fancy,Acolyte,1
+Chapel,Luxury,Acolyte,2
+Dining Hall,Fancy,Servant,1
+Dining Hall,Luxury,Servant,2
+Dock,Basic,Laborer,2,
+Dock,Extended,Laborer,4
+Dock,Extended (Dry),Laborer,6
+Kitchen,Fancy,Cook,2
+Kitchen,Luxury,Cook,6
+Library,Luxury,Librarian,1
+Magic Laboratory,Fancy,Apprentice,1
+Prison Cell,N/A,Guard,1
+Shop,Basic,Clerk,1
+Shop,Fancy,Clerk,2
+Shop,Luxury,Clerk,2,Guard,2
+Smithy,Basic,Smith,1
+Smithy,Fancy,Smith,1
+Stable,Basic,Groom,1
+Stable,Fancy,Groom,1
+Stable,Luxury,Groom,2
+Storage,Luxury,Clerk,1
+Study/Office,Luxury,Clerk,1
+Tavern,Basic,Servant,2
+Tavern,Fancy,Servant,3
+Tavern,Luxury,Servant,4
+Throne Room,Basic,Servant,2
+Throne Room,Fancy,Servant,4
+Throne Room,Luxury,Servant,6
+Torture Chamber,N/A,Torturer,1,Guard,1
+Trophy Hall,Fancy (Museum),Guard,1

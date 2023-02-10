@@ -13,7 +13,7 @@
 	Name: Strongholder
 	Purpose: A program to help DM's and players alike build and budget their homebrew strongholds and bases
 
-	Copyright (C) 2022  Josiah DeLong
+	Copyright (C) 2022 Josiah DeLong
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -78,10 +78,13 @@ void testStrTok(FILE* fPtr)
 
 	while(token != NULL)
 	{
-		printf("%d: %s\n", k, token);
-		splits[k] = (char*)malloc(sizeof(char) * strlen(token));
-		strcpy(splits[k], token);
-		k++;
+		if (token != NULL)
+		{
+			printf("%d: %s\n", k, token);
+			splits[k] = (char*)malloc(sizeof(char) * strlen(token));
+			strcpy(splits[k], token);
+			k++;
+		}
 		token = strtok(NULL, sep);
 	}
 	
@@ -134,29 +137,11 @@ void testStrTok(FILE* fPtr)
 
 void testAddRoom(Stronghold* sPtr, FILE* fPtr)
 {
-	
-	//Adding room steps
-	Floor* floorPtr;
-	if (floorPtr = selectFloor(sPtr))
-	{
-		getRoomInfo(fPtr);
-		selectRoomAndType(floorPtr, fPtr);
-		displayFloor(floorPtr);
-	}
-
-	if (floorPtr = selectFloor(sPtr))
-	{
-		getRoomInfo(fPtr);
-		selectRoomAndType(floorPtr, fPtr);
-		displayFloor(floorPtr);
-	}
-
-	if (floorPtr = selectFloor(sPtr))
-	{
-		getRoomInfo(fPtr);
-		selectRoomAndType(floorPtr, fPtr);
-		displayFloor(floorPtr);
-	}
+	addRoomToFloor(sPtr, fPtr);
+	addRoomToFloor(sPtr, fPtr);
+	addRoomToFloor(sPtr, fPtr);
+	addRoomToFloor(sPtr, fPtr);
+	addRoomToFloor(sPtr, fPtr);
 }
 
 
@@ -180,7 +165,7 @@ void testAddRoom(Stronghold* sPtr, FILE* fPtr)
 	testAddRoom(&nStrong, fPtr);
 
 	displayStronghold(&nStrong);
-
+	fclose(fPtr);
 
 	return 0;
 }
