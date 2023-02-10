@@ -329,7 +329,7 @@ void selectRoomAndType(Floor* floor, FILE* fPtr)
 	int* count = (int*)malloc(sizeof(int));
 	int* k = (int*)malloc(sizeof(int));
 
-	char** splits = split(fPtr, count, k);
+	char** splits = splitSelection(fPtr, count, k, roomSplitter);
 	if (splits == NULL)
 	{
 		free(count);
@@ -413,7 +413,7 @@ void selectRoomAndType(Floor* floor, FILE* fPtr)
 	free(splits);
 }
 
-char** split(FILE* fPtr, int* count, int* k)
+char** splitSelection(FILE* fPtr, int* count, int* k, bool splitter)
 {
 	fseek(fPtr, 0, SEEK_SET);
 	char* rString = (char*)malloc(sizeof(char) * MAX_CHAR_LENGTH);
@@ -421,19 +421,27 @@ char** split(FILE* fPtr, int* count, int* k)
 	const char sep[2] = ",";
 
 	*k = 0;
+	int iErr = 0;
 
 	if (rString == NULL || splits == NULL) {
 		// Handle memory allocation error
 		return 1;
 	}
 
-	//Some minor input validation, don't want the user inputing 
-	printf("Please Select a Room (1 - 32)\nEnter -1 to exit:\n");
-	int iErr = scanf("%d", count);
-	(*count)--;
+	//Some minor input validation, don't want the user inputing
+	//Also need to check if this is being used for 
+	if (splitter == roomSplitter)
+	{
+		printf("Please Select a Room (1 - 32)\nEnter -1 to exit:\n");
+		iErr = scanf("%d", count);
+		(*count)--;
+	}
+
+	//If my selection for line when grabbing workers if correct, this 
+	//loop won't even be called
 	while ((*count < 0 || *count > 33) || (*count + 1) == -1)
 	{
-		if ((*count + 1) == -1)
+		if ((*count + 1) == -1 && splitter == roomSplitter)
 		{
 			printf("Exiting...\n");
 			return NULL;

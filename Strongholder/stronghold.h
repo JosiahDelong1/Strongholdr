@@ -44,6 +44,9 @@
 #define NewFloor true
 #define NewBasement false
 
+#define workSplitter true
+#define roomSplitter false
+
 typedef struct
 {
 	float ssSize;
@@ -120,7 +123,10 @@ typedef struct
 
 
 /* FUNCTIONS */
-char** split(FILE*, int*, int*);
+
+//Need to add a Bool to check if for splitting room choices or workers
+//to avoid printing lines for one or the other
+char** splitSelection(FILE*, int*, int*, bool);
 
 void initializeStronghold(Stronghold*);
 
