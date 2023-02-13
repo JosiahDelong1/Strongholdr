@@ -114,7 +114,11 @@ void addRoomToFloor(Stronghold* sPtr, FILE* fPtr)
 	if (floorPtr = selectFloor(sPtr))
 	{
 		getRoomInfo(fPtr);
-		selectRoomAndType(floorPtr, fPtr);
+
+		if(selectRoomAndType(floorPtr, fPtr) == -1)
+			return;
+
+		sortRooms(floorPtr);
 		displayFloor(floorPtr);
 	}
 }
@@ -170,6 +174,26 @@ void sortFloors(Stronghold* sPtr)
 				tempPtr = sPtr->fPtr[j];
 				sPtr->fPtr[j] = sPtr->fPtr[j+1];
 				sPtr->fPtr[j+1] = tempPtr; 
+			}
+		}
+	}
+}
+
+void sortRooms(Floor* fPtr)
+{
+	Room* tempPtr = fPtr->rPtr[0];
+	for (int i = 0; i < fPtr->numRooms - 1; i++)
+	{
+		for (int j = 0; j < fPtr->numRooms - i - 1; j++)
+		{
+			if (strcmp(sToLower(fPtr->rPtr[j]->sName), sToLower(fPtr->rPtr[j + 1]->sName)) > 0)
+			{
+				tempPtr = fPtr->rPtr[j];
+				fPtr->rPtr[j] = fPtr->rPtr[j + 1];
+				fPtr->rPtr[j + 1] = tempPtr;
+				printf("Swap:\n");
+				printf("%s\n", fPtr->rPtr[j]->sName);
+				printf("%s\n", fPtr->rPtr[j + 1]->sName);
 			}
 		}
 	}
@@ -326,7 +350,8 @@ Floor* selectFloor(Stronghold* sPtr)
 
 }
 
-void selectRoomAndType(Floor* floor, FILE* fPtr)
+//Returns an int so we can check if User wanted to exit or not
+int selectRoomAndType(Floor* floor, FILE* fPtr)
 {
 	int* count = (int*)malloc(sizeof(int));
 	int* k = (int*)malloc(sizeof(int));
@@ -338,7 +363,7 @@ void selectRoomAndType(Floor* floor, FILE* fPtr)
 		free(k);
 		free(splits);
 		printf("No Room added :(");
-		return;
+		return -1;
 	}
 
 
@@ -413,6 +438,8 @@ void selectRoomAndType(Floor* floor, FILE* fPtr)
 	free(count);
 	free(k);
 	free(splits);
+
+	return 1;
 }
 
 char** splitSelection(FILE* fPtr, int* count, int* k, bool splitter)
@@ -443,7 +470,7 @@ char** splitSelection(FILE* fPtr, int* count, int* k, bool splitter)
 	//loop won't even be called
 	while ((*count < 0 || *count > 33) || (*count + 1) == -1)
 	{
-		if ((*count + 1) == -1 && splitter == roomSplitter)
+		if (((*count) + 1) == -1 && splitter == roomSplitter)
 		{
 			printf("Exiting...\n");
 			return NULL;
@@ -496,6 +523,61 @@ Room* getRoom(Floor* fPtr, char** splits, int rSelection)
 			return fPtr->rPtr[i];
 	}
 	return NULL;
+}
+
+void removeFloor(Stronghold* sPtr)
+{
+	printf("\n\nREMOVE FLOOR:\n\n");
+
+	//I need to find a way to set the ACTUAL pointer within sPtr to NULL
+	//Right now, I can only check if fPtr below is NULL, which is a different pointer
+	Floor* fPtr = selectFloor(sPtr);
+	if (fPtr != NULL)
+	{
+		for (int i = 0; i < fPtr->numRooms; i++)
+		{
+			free(fPtr->rPtr[i]->sName);
+			fPtr->rPtr[i]->sName = NULL;
+			free(fPtr->rPtr[i]->sType);
+			fPtr->rPtr[i]->sType = NULL;
+			free(fPtr->rPtr[i]);
+			fPtr->rPtr[i] = NULL;
+		}
+		free(fPtr->rPtr);
+		fPtr->rPtr = NULL;
+		free(fPtr);
+		fPtr = NULL;
+		
+		if (sPtr->fPtr[0] == NULL)
+		{
+			printf("fPtr is fucking NULL ");
+		}
+		else
+			printf("it's not free for some fucking reson goddamit");
+
+		int i = 0;
+		while (fPtr != NULL)
+		{
+			i++;
+		}
+		
+		for (int j = 0; i < sPtr->numFloors - 1; i++)
+		{
+			sPtr->fPtr[i] = sPtr->fPtr[i + 1];
+			if (sPtr->fPtr[i]->level < 0)
+				sPtr->fPtr[i]->level++;
+			else
+				sPtr->fPtr[i]->level--;
+		}
+		//Ex: floors 1 2 3 are 0 1 2 in arrays,  numfloors is reduced from 3 to 2
+		sPtr->numFloors--;
+		//numfloors now equals 2, floor 2 is removed
+		sPtr->fPtr[sPtr->numFloors] = NULL;
+	
+		sPtr->fPtr = (Floor**)realloc(fPtr->rPtr, sizeof(Floor*) * sPtr->numFloors);
+	}
+
+
 }
 
 /*

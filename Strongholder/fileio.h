@@ -43,6 +43,6 @@ int writeStronghold(FILE* filePtr, Stronghold* sPtr);
 //Specifically for reading and writinge stronghold files
 FILE* openFile(const char* fileName, const char* fileMode);
 
-
+char* sToLower(char*);
 
 #endif // !FILEIO_H

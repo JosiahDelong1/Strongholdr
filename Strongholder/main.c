@@ -144,6 +144,19 @@ void testAddRoom(Stronghold* sPtr, FILE* fPtr)
 	addRoomToFloor(sPtr, fPtr);
 }
 
+void testRemoveFloor(Stronghold* sPtr, FILE* fPtr)
+{
+	addRoomToFloor(sPtr, fPtr);
+	addRoomToFloor(sPtr, fPtr);
+	removeFloor(sPtr);
+	displayStronghold(sPtr);
+}
+void testToLower()
+{
+	char str[] = "HELLO WORLD!";
+
+	printf("%s", sToLower(&str));
+}
 
  int main()
 {
@@ -162,10 +175,13 @@ void testAddRoom(Stronghold* sPtr, FILE* fPtr)
 	//fseek(fPtr, 0, SEEK_SET);
 
 	// testStrTok(fPtr);
-	testAddRoom(&nStrong, fPtr);
+	/*testAddRoom(&nStrong, fPtr);
 
 	displayStronghold(&nStrong);
-	fclose(fPtr);
+	fclose(fPtr);*/
+
+	testRemoveFloor(&nStrong, fPtr);
+	 //testToLower();
 
 	return 0;
 }

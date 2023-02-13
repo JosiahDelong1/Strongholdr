@@ -143,6 +143,9 @@ void displayRoom(Room*, unsigned short layerCost);
 void addFloor(Stronghold* sPtr, bool floorType);
 
 void sortFloors(Stronghold*);
+
+void sortRooms(Floor*);
+
 //Will scrape through all rooms and floors to grab 
 //the different totals needed for end calculation
 void setTotals(Stronghold*);
@@ -169,7 +172,7 @@ void addRoom(Floor*, char**, int rSelection);
 //Will read from provided file to give a list of rooms available
 void getRoomInfo(FILE*);
 
-void selectRoomAndType(Floor*, FILE*);
+int selectRoomAndType(Floor*, FILE*);
 
 bool roomExists(Floor*, char**, int rSelection);
 

@@ -48,4 +48,19 @@ FILE* openFile(const char* fileName, const char* fileMode)
     }
 }
 
+char* sToLower(char* string)
+{
+	char* lowerString = (char*)malloc(sizeof(char)* (strlen(string) +1));
+	strcpy(lowerString, string);
+
+	for (int i = 0; i < strlen(lowerString); i++)
+	{
+		//if(strcmp(string[i]," "))
+		lowerString[i] = tolower(lowerString[i]);
+	}
+
+	lowerString[strlen(lowerString)] = '\0';
+	return lowerString;
+}
+
 
