@@ -156,11 +156,13 @@ void setTotals(Stronghold*);
 
 short getStrongholdSize(Stronghold*);
 
+//Gets the Floor's size, cost, and number of rooms
 void getFloorStats(Floor* fPtr);
 
 //Will calculate end totals with all modifiers
 void getStrongholdEndTotal(Stronghold*);
 
+//Adds a selected room to a floor
 void addRoomToFloor(Stronghold* sPtr, FILE* fPtr);
 
 Floor* selectFloor(Stronghold*);
@@ -184,7 +186,13 @@ Room* getRoom(Floor*, char**, int rSelection);
 
 unsigned short getLayerCost(Floor*);
 
+//Will remove either 1, a custom amount, or all of 1 type of room
 void removeRoom(Floor*);
+
+//Will free all the allocated space from a room given to it
+void freeRoom(Room** rPtr, int selection);
+
+bool hasRooms(Floor*);
 
 //Will remove an entire floor, including all rooms, will have to put extreme warning
 void removeFloor(Stronghold*);

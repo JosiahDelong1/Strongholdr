@@ -297,7 +297,7 @@ void addRoom(Floor* fPtr, char** splits, int rSelection)
 
 //From what I can tell, this function gets all the room options
 //and prints them out for the user to see?
-//Whoops, guess I should've left comments 9 moonths ago when I was working on this lol
+//Whoops, guess I should've left comments 9 months ago when I was working on this lol
 void getRoomInfo(FILE* fPtr)
 {
 	//Make sure to set the file pointer back to the start ;)
@@ -440,8 +440,11 @@ int selectRoomAndType(Floor* floor, FILE* fPtr)
     }
 
 	free(count);
+	count = NULL;
 	free(k);
+	k = NULL;
 	free(splits);
+	splits = NULL;
 
 	return 1;
 }
@@ -511,9 +514,9 @@ char** splitSelection(FILE* fPtr, int* count, int* k, bool splitter)
 
 bool roomExists(Floor* fPtr, char** splits, int rSelection)
 {
-	for(int i = 0;i < fPtr->numRooms; i++)
+	for (int i = 0; i < fPtr->numRooms; i++)
 	{
-		if(strcmp(fPtr->rPtr[i]->sName, splits[0]) == 0 && strcmp(fPtr->rPtr[i]->sType, splits[rSelection]) == 0)
+		if (strcmp(fPtr->rPtr[i]->sName, splits[0]) == 0 && strcmp(fPtr->rPtr[i]->sType, splits[rSelection]) == 0)
 			return true;
 	}
 	return false;
@@ -521,9 +524,9 @@ bool roomExists(Floor* fPtr, char** splits, int rSelection)
 
 Room* getRoom(Floor* fPtr, char** splits, int rSelection)
 {
-	for(int i = 0;i < fPtr->numRooms; i++)
+	for (int i = 0; i < fPtr->numRooms; i++)
 	{
-		if(strcmp(fPtr->rPtr[i]->sName, splits[0]) == 0 && strcmp(fPtr->rPtr[i]->sType, splits[rSelection]) == 0)
+		if (strcmp(fPtr->rPtr[i]->sName, splits[0]) == 0 && strcmp(fPtr->rPtr[i]->sType, splits[rSelection]) == 0)
 			return fPtr->rPtr[i];
 	}
 	return NULL;
@@ -549,12 +552,15 @@ void removeFloor(Stronghold* sPtr)
 		{
 			for (int i = 0; i < fPtr->numRooms; i++)
 			{
-				free(fPtr->rPtr[i]->sName);
+				freeRoom(fPtr->rPtr, &i);
+
+				//function above does this below
+				/*free(fPtr->rPtr[i]->sName);
 				fPtr->rPtr[i]->sName = NULL;
 				free(fPtr->rPtr[i]->sType);
 				fPtr->rPtr[i]->sType = NULL;
 				free(fPtr->rPtr[i]);
-				fPtr->rPtr[i] = NULL;
+				fPtr->rPtr[i] = NULL;*/
 			}
 
 			free(fPtr->rPtr);
@@ -565,7 +571,7 @@ void removeFloor(Stronghold* sPtr)
 			sPtr->fPtr[pos] = NULL;
 		}
 
-		
+
 		for (int j = pos; j < sPtr->numFloors - 1; j++)
 		{
 			sPtr->fPtr[j] = sPtr->fPtr[j + 1];
@@ -579,7 +585,7 @@ void removeFloor(Stronghold* sPtr)
 		sPtr->numFloors--;
 		//numfloors now equals 2, floor 3 is removed
 		sPtr->fPtr[sPtr->numFloors] = NULL;
-	
+
 		//Realloc 2 floors
 		sPtr->fPtr = (Floor**)realloc(sPtr->fPtr, sizeof(Floor*) * sPtr->numFloors);
 
@@ -592,6 +598,107 @@ void removeFloor(Stronghold* sPtr)
 	}
 
 }
+
+void removeRoom(Floor* fPtr)
+{
+	printf("\n\n");
+	
+	if (hasRooms(fPtr))
+	{
+		if (fPtr->level < 0)
+			printf("Basement #%d", abs(fPtr->level));
+		else if (fPtr->level == 0)
+			printf("Ground Floor (%d)", abs(fPtr->level) + 1);
+		else
+			printf("Floor #%d", (fPtr->level) + 1);
+
+		printf(" has no rooms.\nReturning...");
+		return;
+	}
+
+	for (int i = 0; i < fPtr->numRooms; i++)
+	{
+		printf("%d. %s : %s\n\n", i + 1, fPtr->rPtr[i]->sName, fPtr->rPtr[i]->sType);
+	}
+
+	printf("\nPlease select a room to remove:\n(-1 to exit)\n");
+
+	int selection;
+
+	int iErr = scanf("%d", &selection);
+
+	if (selection == -1)
+		return;
+	else while (selection > fPtr->numRooms || selection < 0)
+	{
+		printf("\n\nPlease select a number between 1 and %d", fPtr->numRooms);
+		iErr = scanf("%d", selection);
+	}
+
+	//selection needs to be -1 as numRooms is the actual number of rooms, not the position in the pointer array
+	(selection)--;
+
+	int amount;
+
+	displayRoom(fPtr->rPtr[selection], fPtr->layerCost);
+
+	printf("\n\nYou have chosen %s:%s.\nPlease enter a removal amount (-1 to exit): ", fPtr->rPtr[selection]->sName, fPtr->rPtr[selection]->sType);
+	iErr = scanf("%d", &amount);
+
+	if (amount == fPtr->rPtr[selection]->numRooms)
+	{
+		freeRoom(fPtr->rPtr, selection);
+
+		
+
+		for (int j = selection; j < fPtr->numRooms - 1; j++)
+		{
+			fPtr->rPtr[j] = fPtr->rPtr[j + 1];
+		}
+		fPtr->numRooms--;
+
+		fPtr->rPtr[fPtr->numRooms] = NULL;
+
+		if (fPtr->numRooms == 0)
+			fPtr->rPtr = NULL;
+		else
+		{	
+			printf("%d", sizeof(Room*) * fPtr->numRooms);
+			fPtr->rPtr = (Room**)realloc(fPtr->rPtr, sizeof(Room*) * fPtr->numRooms);
+		}
+	}
+	else
+	{
+		fPtr->rPtr[selection]->numRooms = fPtr->rPtr[selection]->numRooms - amount;
+		fPtr->roomTotal = fPtr->roomTotal - amount;
+	}
+
+}
+
+void freeRoom(Room** rPtr, int selection)
+{
+	free(rPtr[selection]->sName);
+		rPtr[selection]->sName = NULL;
+
+		free(rPtr[selection]->sType);
+		rPtr[selection]->sType = NULL;
+
+		free(rPtr[selection]);
+		rPtr[selection] = NULL;
+}
+
+
+//I think whats happening here is I accidentally correctly set up my if statement,
+//since my pointer to pointer (fPtr->rPtr) is set to null on creation, for some reason it gives it the value 0
+//so in the if statment here, since my non null rPtr's are not 0 it returns false, which is what I accidentally 
+//set backwards. I meant to return true on NULL in the if statement but this works too I guess
+bool hasRooms(Floor* fPtr)
+{
+	if (fPtr->rPtr)
+		return false;
+	return true;
+}
+
 
 /*
 *	for malloc'ing rooms later

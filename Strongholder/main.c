@@ -151,11 +151,25 @@ void testRemoveFloor(Stronghold* sPtr, FILE* fPtr)
 	removeFloor(sPtr);
 	displayStronghold(sPtr);
 }
+
 void testToLower()
 {
 	char str[] = "HELLO WORLD!";
 
 	printf("%s", sToLower(&str));
+}
+
+void testRemoveRoom(Stronghold* sPtr, FILE* fPtr)
+{
+	addRoomToFloor(sPtr, fPtr);
+	addRoomToFloor(sPtr, fPtr);
+	addRoomToFloor(sPtr, fPtr);
+	
+	Floor* floor = selectFloor(sPtr);
+
+	removeRoom(floor);
+	getFloorStats(floor);
+	displayStronghold(sPtr);
 }
 
  int main()
@@ -180,7 +194,9 @@ void testToLower()
 	displayStronghold(&nStrong);
 	fclose(fPtr);*/
 
-	testRemoveFloor(&nStrong, fPtr);
+	//testRemoveFloor(&nStrong, fPtr);
+
+	testRemoveRoom(&nStrong, fPtr);
 	 //testToLower();
 
 	return 0;
