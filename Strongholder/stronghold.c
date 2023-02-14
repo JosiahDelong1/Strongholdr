@@ -177,6 +177,10 @@ void sortFloors(Stronghold* sPtr)
 			}
 		}
 	}
+
+	//set each floors position to grab later
+	for (int i = 0; i < sPtr->numFloors; i++)
+		sPtr->fPtr[i]->pos = i;
 }
 
 void sortRooms(Floor* fPtr)
@@ -531,52 +535,61 @@ void removeFloor(Stronghold* sPtr)
 
 	//I need to find a way to set the ACTUAL pointer within sPtr to NULL
 	//Right now, I can only check if fPtr below is NULL, which is a different pointer
+	//*EDIT*: I have added a position short that is automatically set everytime my floors
+	//		  are sorted.  Now each floor essentially has their position stored so I can grab
+	//		  it at any time/
 	Floor* fPtr = selectFloor(sPtr);
+	int pos = fPtr->pos;
+
+	//first we check if the pointer is null, then check if it has any rooms,
+	//other wise we just set the room pointer to null and the actual floor to null/
 	if (fPtr != NULL)
 	{
-		for (int i = 0; i < fPtr->numRooms; i++)
+		if (fPtr->rPtr != NULL)
 		{
-			free(fPtr->rPtr[i]->sName);
-			fPtr->rPtr[i]->sName = NULL;
-			free(fPtr->rPtr[i]->sType);
-			fPtr->rPtr[i]->sType = NULL;
-			free(fPtr->rPtr[i]);
-			fPtr->rPtr[i] = NULL;
-		}
-		free(fPtr->rPtr);
-		fPtr->rPtr = NULL;
-		free(fPtr);
-		fPtr = NULL;
-		
-		if (sPtr->fPtr[0] == NULL)
-		{
-			printf("fPtr is fucking NULL ");
-		}
-		else
-			printf("it's not free for some fucking reson goddamit");
+			for (int i = 0; i < fPtr->numRooms; i++)
+			{
+				free(fPtr->rPtr[i]->sName);
+				fPtr->rPtr[i]->sName = NULL;
+				free(fPtr->rPtr[i]->sType);
+				fPtr->rPtr[i]->sType = NULL;
+				free(fPtr->rPtr[i]);
+				fPtr->rPtr[i] = NULL;
+			}
 
-		int i = 0;
-		while (fPtr != NULL)
-		{
-			i++;
+			free(fPtr->rPtr);
+			fPtr->rPtr = NULL;
+			free(fPtr);
+			fPtr = NULL;
+
+			sPtr->fPtr[pos] = NULL;
 		}
+
 		
-		for (int j = 0; i < sPtr->numFloors - 1; i++)
+		for (int j = pos; j < sPtr->numFloors - 1; j++)
 		{
-			sPtr->fPtr[i] = sPtr->fPtr[i + 1];
-			if (sPtr->fPtr[i]->level < 0)
-				sPtr->fPtr[i]->level++;
+			sPtr->fPtr[j] = sPtr->fPtr[j + 1];
+			if (sPtr->fPtr[j]->level < 0)
+				sPtr->fPtr[j]->level++;
 			else
-				sPtr->fPtr[i]->level--;
+				sPtr->fPtr[j]->level--;
 		}
+
 		//Ex: floors 1 2 3 are 0 1 2 in arrays,  numfloors is reduced from 3 to 2
 		sPtr->numFloors--;
-		//numfloors now equals 2, floor 2 is removed
+		//numfloors now equals 2, floor 3 is removed
 		sPtr->fPtr[sPtr->numFloors] = NULL;
 	
-		sPtr->fPtr = (Floor**)realloc(fPtr->rPtr, sizeof(Floor*) * sPtr->numFloors);
-	}
+		//Realloc 2 floors
+		sPtr->fPtr = (Floor**)realloc(sPtr->fPtr, sizeof(Floor*) * sPtr->numFloors);
 
+		displayStronghold(sPtr);
+	}
+	else
+	{
+		printf("No such floor to remove\nReturning...\n");
+		return;
+	}
 
 }
 

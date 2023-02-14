@@ -79,6 +79,10 @@ typedef struct
 	//Each floor above 2 and basement below -1 have additional room costs
 	unsigned short layerCost;
 	unsigned int floorCost;
+
+	//Needed array position for deleting floors
+	unsigned short pos;
+
 	//Each floor will have an array of rooms that can vary
 	//Future implementation of hashmap rather than array for faster adding and removing of rooms would be cool
 	Room** rPtr;
