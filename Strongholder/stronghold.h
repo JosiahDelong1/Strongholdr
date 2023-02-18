@@ -51,6 +51,15 @@
 
 typedef struct
 {
+	short cost;
+	short wNumWorkers;
+	unsigned char* wName;
+
+	//FILL OUT LATER
+}Workforce;
+
+typedef struct
+{
 	float ssSize;
 	unsigned short price;
 	
@@ -60,6 +69,8 @@ typedef struct
 
 	//Will keep track of duplicate rooms on the floor, keeps from duplicate structs taking up space
 	unsigned short numRooms;
+
+	Workforce** workers;
 
 	unsigned char* sName;
 	unsigned char* sType;
@@ -121,11 +132,7 @@ typedef struct
 	//FILL OUT LATER
 }Militia;
 
-typedef struct
-{
-	short dummy;
-	//FILL OUT LATER
-}Workforce;
+
 
 
 /* FUNCTIONS */
@@ -203,6 +210,6 @@ void freeRooms(Floor*);
 
 void setMilitary(Stronghold*);
 
-void setWorkforce(Stronghold*);
+void getWorkforce(Stronghold*);
 
 #endif // !STRONGHOLD_H

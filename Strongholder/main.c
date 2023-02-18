@@ -172,16 +172,33 @@ void testRemoveRoom(Stronghold* sPtr, FILE* fPtr)
 	displayStronghold(sPtr);
 }
 
+void testSpliiter()
+{
+	FILE* workPtr = openFile("staffWages.csv", "r");
+
+	int* count = (int*)malloc(sizeof(int));
+	*count = 1;
+	int* k = (int*)malloc(sizeof(int));
+
+	char** workline = splitSelection(workPtr, count, k, workSplitter);
+
+	for (int i = 0; i < *k; i++)
+	{
+		printf("%s : %s", workline[i], workline[i+1]);
+		i++;
+	}
+}
+
  int main()
 {
 	 
 	 
-	Stronghold nStrong;
-	initializeStronghold(&nStrong);
-	testStrongholdAddFloor(&nStrong);
+	//Stronghold nStrong;
+	//initializeStronghold(&nStrong);
+	//testStrongholdAddFloor(&nStrong);
 	//showStrongholdData(&nStrong);
 
-	FILE* fPtr = openFile("spaces.csv", "r");
+	//FILE* fPtr = openFile("spaces.csv", "r");
 	//printf("\nGetting room info...\n");
 
 	//Room* r = getRoomInfo(fPtr);
@@ -196,8 +213,8 @@ void testRemoveRoom(Stronghold* sPtr, FILE* fPtr)
 
 	//testRemoveFloor(&nStrong, fPtr);
 
-	testRemoveRoom(&nStrong, fPtr);
+	//testRemoveRoom(&nStrong, fPtr);
 	 //testToLower();
-
+	 testSpliiter();
 	return 0;
 }

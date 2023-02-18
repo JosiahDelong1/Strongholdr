@@ -29,6 +29,11 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+/*
+*	for malloc'ing rooms later
+	Room** rPtr = (Room**)malloc(sizeof(Room*));
+*/
+
 //Initialized the new stronghold, mallocs appropriate size
 void initializeStronghold(Stronghold* sPtr)
 {
@@ -449,6 +454,7 @@ int selectRoomAndType(Floor* floor, FILE* fPtr)
 	return 1;
 }
 
+//count is the line we want, k is a counter for getting to that line
 char** splitSelection(FILE* fPtr, int* count, int* k, bool splitter)
 {
 	fseek(fPtr, 0, SEEK_SET);
@@ -475,17 +481,20 @@ char** splitSelection(FILE* fPtr, int* count, int* k, bool splitter)
 
 	//If my selection for line when grabbing workers if correct, this 
 	//loop won't even be called
-	while ((*count < 0 || *count > 33) || (*count + 1) == -1)
+	if (splitter == roomSplitter)
 	{
-		if (((*count) + 1) == -1 && splitter == roomSplitter)
+		while ((*count < 0 || *count > 33) || (*count + 1) == -1)
 		{
-			printf("Exiting...\n");
-			return NULL;
-		}
-		printf("Please enter a valid room number (1 - 32)\nEnter -1 to exit:\n");
-		iErr = scanf("%d", count);
+			if (((*count) + 1) == -1)
+			{
+				printf("Exiting...\n");
+				return NULL;
+			}
+			printf("Please enter a valid room number (1 - 32)\nEnter -1 to exit:\n");
+			iErr = scanf("%d", count);
 
-		(*count)--;
+			(*count)--;
+		}
 	}
 
 	//Grab the line of the room the user wants
@@ -700,7 +709,12 @@ bool hasRooms(Floor* fPtr)
 }
 
 
-/*
-*	for malloc'ing rooms later
-	Room** rPtr = (Room**)malloc(sizeof(Room*));
-*/
+void getWorkforce(Stronghold* sPtr)
+{
+
+}
+
+
+
+
+
