@@ -139,9 +139,7 @@ void testAddRoom(Stronghold* sPtr, FILE* fPtr)
 {
 	addRoomToFloor(sPtr, fPtr);
 	addRoomToFloor(sPtr, fPtr);
-	addRoomToFloor(sPtr, fPtr);
-	addRoomToFloor(sPtr, fPtr);
-	addRoomToFloor(sPtr, fPtr);
+
 }
 
 void testRemoveFloor(Stronghold* sPtr, FILE* fPtr)
@@ -193,12 +191,12 @@ void testSpliiter()
 {
 	 
 	 
-	//Stronghold nStrong;
-	//initializeStronghold(&nStrong);
-	//testStrongholdAddFloor(&nStrong);
+	Stronghold nStrong;
+	initializeStronghold(&nStrong);
+	testStrongholdAddFloor(&nStrong);
 	//showStrongholdData(&nStrong);
 
-	//FILE* fPtr = openFile("spaces.csv", "r");
+	FILE* fPtr = openFile("spaces.csv", "r");
 	//printf("\nGetting room info...\n");
 
 	//Room* r = getRoomInfo(fPtr);
@@ -206,15 +204,15 @@ void testSpliiter()
 	//fseek(fPtr, 0, SEEK_SET);
 
 	// testStrTok(fPtr);
-	/*testAddRoom(&nStrong, fPtr);
+	//testAddRoom(&nStrong,fPtr);
 
-	displayStronghold(&nStrong);
-	fclose(fPtr);*/
+	//displayStronghold(&nStrong);
+	//fclose(fPtr);
 
-	//testRemoveFloor(&nStrong, fPtr);
+	testRemoveFloor(&nStrong, fPtr);
 
 	//testRemoveRoom(&nStrong, fPtr);
 	 //testToLower();
-	 testSpliiter();
+	 //testSpliiter();
 	return 0;
 }

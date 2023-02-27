@@ -197,7 +197,7 @@ unsigned short getLayerCost(Floor*);
 void removeRoom(Floor*);
 
 //Will free all the allocated space from a room given to it
-void freeRoom(Room** rPtr, int selection);
+void freeRoom(Room** rPtr, int* selection);
 
 bool hasRooms(Floor*);
 
@@ -206,7 +206,7 @@ void removeFloor(Stronghold*);
 
 void freeFloors(Stronghold*);
 
-void freeRooms(Floor*);
+//void freeRooms(Floor*);
 
 void setMilitary(Stronghold*);
 

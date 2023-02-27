@@ -561,7 +561,7 @@ void removeFloor(Stronghold* sPtr)
 		{
 			for (int i = 0; i < fPtr->numRooms; i++)
 			{
-				freeRoom(fPtr->rPtr, &i);
+				freeRoom(fPtr->rPtr, i);
 
 				//function above does this below
 				/*free(fPtr->rPtr[i]->sName);
@@ -686,6 +686,7 @@ void removeRoom(Floor* fPtr)
 
 void freeRoom(Room** rPtr, int selection)
 {
+	printf("%s", rPtr[selection]->sName);
 	free(rPtr[selection]->sName);
 		rPtr[selection]->sName = NULL;
 

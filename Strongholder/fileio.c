@@ -62,5 +62,3 @@ char* sToLower(char* string)
 	lowerString[strlen(lowerString)] = '\0';
 	return lowerString;
 }
-
-
