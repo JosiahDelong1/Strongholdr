@@ -211,6 +211,7 @@ void testSpliiter()
 
 	testRemoveFloor(&nStrong, fPtr);
 
+	printf("\n\n\n\t%d", nStrong.EndTotal);
 	//testRemoveRoom(&nStrong, fPtr);
 	 //testToLower();
 	 //testSpliiter();

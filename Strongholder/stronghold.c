@@ -356,7 +356,7 @@ Floor* selectFloor(Stronghold* sPtr)
 	}
 	return sPtr->fPtr[count - 1];
 
-
+	
 }
 
 //Returns an int so we can check if User wanted to exit or not
